@@ -1,5 +1,5 @@
-import axios from "axios";
 import { cookies } from "next/headers";
+import { api } from "@/shared/api";
 
 export default async function Home() {
   const cookieStore = await cookies();
@@ -9,14 +9,11 @@ export default async function Home() {
 
   if (accessToken) {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/users/me", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      // Правильний шлях до імені користувача
-      userName = data.data.name;
+      const user = await api.users.getMe(accessToken);
+      userName = user.name;
+      console.log(user);
     } catch (error) {
       console.error("Failed to fetch user:", error);
-      // Тут можна обробити помилку, наприклад, перенаправити на сторінку логіну
     }
   }
 
