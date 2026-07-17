@@ -7,6 +7,7 @@ import {
   WeeklySchedule,
   ApiResponse,
 } from "@/shared/api/index";
+import normalizeAndGroupWeekScheudle from "@/shared/utils/normalizeAndGroupWeekScheudle";
 
 // 1. Створюємо мокового Менеджера та його Групу
 export const mockManager: User = {
@@ -107,6 +108,10 @@ export const mockScheduleApiResponse: ApiResponse<WeeklySchedule> = {
 };
 
 export default function Test() {
+  const shiftsObj = normalizeAndGroupWeekScheudle({
+    schedule: mockWeeklySchedule,
+  });
+  console.log(shiftsObj);
   return (
     <main>
       {mockWeeklySchedule.map((shift) => (
