@@ -6,12 +6,14 @@ interface normalizeArguments {
     startAt: string;
     endAt: string;
   };
+  groupId: string;
 }
 
 interface normalizedShift {
   _id: string;
   user: User;
   type: ShiftType;
+  isOutstaff: boolean;
   startAt: string;
   endAt: string;
 }
@@ -73,6 +75,7 @@ const generateWeekDays = (startISO: string, endISO: string): string[] => {
 export default function normalizeAndGroupWeekScheudle({
   schedule,
   weekBounds,
+  groupId,
 }: normalizeArguments) {
   const normalizedWeekScheudle: Record<string, normalizedDay> = {};
   const weekDays = generateWeekDays(weekBounds.startAt, weekBounds.endAt);
@@ -92,6 +95,7 @@ export default function normalizeAndGroupWeekScheudle({
       _id: rawShift._id,
       user: userObj,
       type: rawShift.type,
+      isOutstaff: rawShift.originGroupId === groupId,
       startAt: formatToKyivTime(rawShift.startAt),
       endAt: formatToKyivTime(rawShift.endAt),
     };
