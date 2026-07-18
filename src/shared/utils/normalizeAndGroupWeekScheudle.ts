@@ -82,6 +82,7 @@ export default function normalizeAndGroupWeekScheudle({
 
   weekDays.forEach((dataKey) => {
     normalizedWeekScheudle[dataKey] = {
+      //Bug with format key, must be formated - now ISO string
       uiDate: formatToKyivDate(dataKey),
       isToday: isToday(new Date(dataKey).toISOString()),
       shifts: [],
