@@ -67,6 +67,7 @@ const generateSkeletonWeekScheudle = (
       isToday: isToday(current),
       shifts: [],
     };
+    current.setDate(current.getDate() + 1);
   }
   return skeletonWeek;
 };
