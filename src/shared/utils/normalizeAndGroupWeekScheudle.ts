@@ -1,4 +1,4 @@
-import { ShiftType, User, WeeklySchedule } from "../api";
+import { Group, ShiftType, User, WeeklySchedule } from "../api";
 
 interface normalizeArguments {
   schedule: WeeklySchedule;
@@ -6,14 +6,16 @@ interface normalizeArguments {
     startAt: string;
     endAt: string;
   };
-  groupId: string;
+  currentUser: User;
 }
 
 interface normalizedShift {
   _id: string;
   user: User;
   type: ShiftType;
-  isOutstaff: boolean;
+  isOutstaffIn: boolean;
+  isOutstaffOut: boolean;
+  isMe: boolean;
   startAt: string;
   endAt: string;
 }
@@ -75,26 +77,37 @@ const generateSkeletonWeekScheudle = (
 export default function normalizeAndGroupWeekScheudle({
   schedule,
   weekBounds,
-  groupId,
+  currentUser,
 }: normalizeArguments) {
+  const currentGroup = currentUser.groupId as Group;
   const normalizedWeekScheudle: Record<string, normalizedDay> =
     generateSkeletonWeekScheudle(weekBounds.startAt, weekBounds.endAt);
 
   schedule.forEach((rawShift) => {
     const userObj = rawShift.user as User;
+    const originGroup = rawShift.originGroupId as Group;
+    const actualGroup = rawShift.actualGroupId as Group;
 
     const normalizedShift: normalizedShift = {
       _id: rawShift._id,
       user: userObj,
       type: rawShift.type,
-      isOutstaff: rawShift.originGroupId === groupId,
+      isOutstaffIn:
+        currentGroup._id === actualGroup._id &&
+        currentGroup._id !== originGroup._id,
+      isOutstaffOut:
+        currentGroup._id === originGroup._id &&
+        currentGroup._id !== actualGroup._id,
+      isMe: userObj._id === currentUser._id,
       startAt: formatToKyivTime(rawShift.startAt),
       endAt: formatToKyivTime(rawShift.endAt),
     };
 
     const dateKey = formatToKyivDate(rawShift.startAt);
 
-    normalizedWeekScheudle[dateKey].shifts.push(normalizedShift);
+    if (normalizedWeekScheudle[dateKey]) {
+      normalizedWeekScheudle[dateKey].shifts.push(normalizedShift);
+    }
   });
   return normalizedWeekScheudle;
 }
