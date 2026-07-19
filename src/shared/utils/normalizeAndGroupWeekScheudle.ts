@@ -38,13 +38,13 @@ const formatterToKiyvTime = new Intl.DateTimeFormat("en-CA", {
   hour12: false,
 });
 
-const formatToKyivDate = (isoString: string): string =>
+const formatToKyivDate = (isoString: string | Date): string =>
   formatterToKiyvDate.format(new Date(isoString));
 
-const formatToKyivTime = (isoString: string): string =>
+const formatToKyivTime = (isoString: string | Date): string =>
   formatterToKiyvTime.format(new Date(isoString));
 
-const isToday = (dateIso: string): boolean => {
+const isToday = (dateIso: string | Date): boolean => {
   const today = new Date();
   const dateIn = new Date(dateIso);
 
@@ -53,15 +53,22 @@ const isToday = (dateIso: string): boolean => {
   );
 };
 
-const generateWeekDays = (startISO: string, endISO: string): string[] => {
-  const days: string[] = [];
+const generateSkeletonWeekScheudle = (
+  startISO: string,
+  endISO: string,
+): Record<string, normalizedDay> => {
+  const skeletonWeek: Record<string, normalizedDay> = {};
   const current = new Date(startISO);
   const end = new Date(endISO);
   while (current <= end) {
-    days.push(current.toISOString());
-    current.setDate(current.getDate() + 1);
+    const formatedDate = formatToKyivDate(current.toISOString());
+    skeletonWeek[formatedDate] = {
+      uiDate: formatedDate,
+      isToday: isToday(current),
+      shifts: [],
+    };
   }
-  return days;
+  return skeletonWeek;
 };
 
 export default function normalizeAndGroupWeekScheudle({
@@ -69,17 +76,8 @@ export default function normalizeAndGroupWeekScheudle({
   weekBounds,
   groupId,
 }: normalizeArguments) {
-  const normalizedWeekScheudle: Record<string, normalizedDay> = {};
-  const weekDays = generateWeekDays(weekBounds.startAt, weekBounds.endAt);
-
-  weekDays.forEach((dataKey) => {
-    normalizedWeekScheudle[dataKey] = {
-      //Bug with format key, must be formated - now ISO string
-      uiDate: formatToKyivDate(dataKey),
-      isToday: isToday(new Date(dataKey).toISOString()),
-      shifts: [],
-    };
-  });
+  const normalizedWeekScheudle: Record<string, normalizedDay> =
+    generateSkeletonWeekScheudle(weekBounds.startAt, weekBounds.endAt);
 
   schedule.forEach((rawShift) => {
     const userObj = rawShift.user as User;
