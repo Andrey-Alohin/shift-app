@@ -18,6 +18,7 @@ interface normalizedShift {
   isMe: boolean;
   startAt: string;
   endAt: string;
+  relatedGroup?: Group;
 }
 
 interface normalizedDay {
@@ -88,19 +89,27 @@ export default function normalizeAndGroupWeekScheudle({
     const originGroup = rawShift.originGroupId as Group;
     const actualGroup = rawShift.actualGroupId as Group;
 
+    const isOutstaffIn =
+      currentGroup._id === actualGroup._id &&
+      currentGroup._id !== originGroup._id;
+
+    const isOutstaffOut =
+      currentGroup._id === originGroup._id &&
+      currentGroup._id !== actualGroup._id;
+
     const normalizedShift: normalizedShift = {
       _id: rawShift._id,
       user: userObj,
       type: rawShift.type,
-      isOutstaffIn:
-        currentGroup._id === actualGroup._id &&
-        currentGroup._id !== originGroup._id,
-      isOutstaffOut:
-        currentGroup._id === originGroup._id &&
-        currentGroup._id !== actualGroup._id,
+      isOutstaffIn,
+      isOutstaffOut,
       isMe: userObj._id === currentUser._id,
       startAt: formatToKyivTime(rawShift.startAt),
       endAt: formatToKyivTime(rawShift.endAt),
+
+      ...((isOutstaffIn || isOutstaffOut) && {
+        relatedGroup: isOutstaffIn ? originGroup : actualGroup,
+      }),
     };
 
     const dateKey = formatToKyivDate(rawShift.startAt);
