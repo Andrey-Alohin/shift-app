@@ -24,41 +24,33 @@ interface normalizedDay {
   shifts: normalizedShift[];
 }
 
-const formatToKyivDate = (isoString: string): string => {
-  const date = new Date(isoString);
-  const formatter = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Europe/Kyiv",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+const formatterToKiyvDate = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Europe/Kyiv",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
 
-  return formatter.format(date);
-};
+const formatterToKiyvTime = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Europe/Kyiv",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
 
-const formatToKyivTime = (isoString: string): string => {
-  const date = new Date(isoString);
-  const formatter = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Europe/Kyiv",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+const formatToKyivDate = (isoString: string): string =>
+  formatterToKiyvDate.format(new Date(isoString));
 
-  return formatter.format(date);
-};
+const formatToKyivTime = (isoString: string): string =>
+  formatterToKiyvTime.format(new Date(isoString));
 
 const isToday = (dateIso: string): boolean => {
   const today = new Date();
   const dateIn = new Date(dateIso);
-  const formatter = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Europe/Kyiv",
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-  });
 
-  return formatter.format(today) === formatter.format(dateIn);
+  return (
+    formatterToKiyvDate.format(today) === formatterToKiyvDate.format(dateIn)
+  );
 };
 
 const generateWeekDays = (startISO: string, endISO: string): string[] => {
