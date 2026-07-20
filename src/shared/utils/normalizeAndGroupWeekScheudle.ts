@@ -118,5 +118,15 @@ export default function normalizeAndGroupWeekScheudle({
       normalizedWeekScheudle[dateKey].shifts.push(normalizedShift);
     }
   });
+
+  Object.values(normalizedWeekScheudle).forEach((day) => {
+    day.shifts.sort((a, b) => {
+      if (a.isMe !== b.isMe) {
+        return Number(b.isMe) - Number(a.isMe);
+      }
+      return a.startAt.localeCompare(b.startAt);
+    });
+  });
+
   return normalizedWeekScheudle;
 }
