@@ -130,3 +130,5 @@ export default function normalizeAndGroupWeekScheudle({
 
   return normalizedWeekScheudle;
 }
+
+export type NormalizedWeekSchedule = Record<string, normalizedDay>;

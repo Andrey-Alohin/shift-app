@@ -16,8 +16,10 @@ export default function DayCard({ day, isToday, children }: DayCardProps) {
       )}
     >
       <div className="bg-primary/10">
+        {/* Title of day */}
         <h2>{day}</h2>
       </div>
+      {/* Shifts group  */}
       {children}
     </div>
   );

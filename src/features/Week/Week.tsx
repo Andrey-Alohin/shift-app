@@ -1,17 +1,9 @@
-import { WeeklySchedule } from "@/shared/api";
+import { NormalizedWeekSchedule } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 
 interface WeekProps {
-  schedule: WeeklySchedule;
-  weekBounds: {
-    start: string;
-    end: string;
-  };
+  weekSchedule: NormalizedWeekSchedule;
 }
 
-export default function Week({ schedule, weekBounds }: WeekProps) {
-  const today = new Date().getDate();
-  const weekStart = new Date(weekBounds.start);
-  const weekEnd = new Date(weekBounds.end);
-
+export default function Week({ weekSchedule }: WeekProps) {
   return <div className="flex md:flex-row sm:overflow-hidden"></div>;
 }
