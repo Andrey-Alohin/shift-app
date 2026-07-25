@@ -1,6 +1,6 @@
 import { Group, ShiftType, User, WeeklySchedule } from "../api";
 
-interface normalizeArguments {
+interface NormalizeArguments {
   schedule: WeeklySchedule;
   weekBounds: {
     startAt: string;
@@ -79,7 +79,7 @@ export default function normalizeAndGroupWeekScheudle({
   schedule,
   weekBounds,
   currentUser,
-}: normalizeArguments) {
+}: NormalizeArguments) {
   const currentGroup = currentUser.groupId as Group;
   const normalizedWeekScheudle: Record<string, normalizedDay> =
     generateSkeletonWeekScheudle(weekBounds.startAt, weekBounds.endAt);

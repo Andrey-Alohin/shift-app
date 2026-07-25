@@ -1,12 +1,24 @@
-import { Shift, ShiftType } from "@/shared/api";
+import { ShiftType } from "@/shared/api";
+import Avatar from "@/shared/ui/Avatar";
+import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import clsx from "clsx";
+import { use } from "react";
 
 interface ShiftCardProps {
-  shift: Shift;
+  shift: NormalizedShift;
 }
 
 export default function ShiftCard({ shift }: ShiftCardProps) {
-  const { startAt, endAt, user, type } = shift;
-  const userName = typeof user === "object" ? user.name : "Користувач";
+  const {
+    startAt,
+    endAt,
+    user,
+    type,
+    isMe,
+    isOutstaffIn,
+    isOutstaffOut,
+    relatedGroup,
+  } = shift;
   // 2. Визначаємо колір картки залежно від типу зміни
   let bgClass = "bg-gray-100 text-gray-800 border-gray-300"; // дефолт (вихідний)
 
@@ -18,14 +30,20 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
     bgClass = "bg-sky-50 text-sky-800 border-sky-200"; // відпустка
   }
   return (
-    <div className={bgClass}>
-      <p>{userName}</p>
+    <div className={clsx(bgClass, "relative")}>
+      {isMe && <div className="sticky w-2 h-2 bg-indigo-700 rounded-full" />}
+
       {type === ShiftType.Work && (
         <h3>
-          {new Date(startAt).toLocaleString()} -{" "}
-          {new Date(endAt).toLocaleString()}
+          {startAt} - {endAt}
         </h3>
       )}
+      <Avatar
+        src={user.avatarUrl}
+        name={user.name}
+        className="border-cyan-400"
+      />
+      <p>{user.name}</p>
     </div>
   );
 }

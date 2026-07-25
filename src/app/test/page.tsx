@@ -1,4 +1,5 @@
 import ShiftCard from "@/entities/shift/ui/ShifCard";
+import Week from "@/features/Week/Week";
 import {
   User,
   Group,
@@ -8,6 +9,7 @@ import {
   ApiResponse,
 } from "@/shared/api/index";
 import normalizeAndGroupWeekScheudle from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { mockNormalizeArguments } from "./mockData";
 
 // 1. Створюємо мокового Менеджера та його Групу
 export const mockManager: User = {
@@ -108,15 +110,11 @@ export const mockScheduleApiResponse: ApiResponse<WeeklySchedule> = {
 };
 
 export default function Test() {
-  const shiftsObj = normalizeAndGroupWeekScheudle({
-    schedule: mockWeeklySchedule,
-  });
+  const shiftsObj = normalizeAndGroupWeekScheudle(mockNormalizeArguments);
   console.log(shiftsObj);
   return (
     <main>
-      {mockWeeklySchedule.map((shift) => (
-        <ShiftCard key={shift._id} shift={shift} />
-      ))}
+      <Week weekSchedule={shiftsObj} />
     </main>
   );
 }
