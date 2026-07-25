@@ -9,7 +9,7 @@ interface normalizeArguments {
   currentUser: User;
 }
 
-interface normalizedShift {
+export interface NormalizedShift {
   _id: string;
   user: User;
   type: ShiftType;
@@ -21,10 +21,10 @@ interface normalizedShift {
   relatedGroup?: Group;
 }
 
-interface normalizedDay {
+export interface normalizedDay {
   uiDate: string;
   isToday: boolean;
-  shifts: normalizedShift[];
+  shifts: NormalizedShift[];
 }
 
 const formatterToKiyvDate = new Intl.DateTimeFormat("en-CA", {
@@ -97,7 +97,7 @@ export default function normalizeAndGroupWeekScheudle({
       currentGroup._id === originGroup._id &&
       currentGroup._id !== actualGroup._id;
 
-    const normalizedShift: normalizedShift = {
+    const NormalizedShift: NormalizedShift = {
       _id: rawShift._id,
       user: userObj,
       type: rawShift.type,
@@ -115,7 +115,7 @@ export default function normalizeAndGroupWeekScheudle({
     const dateKey = formatToKyivDate(rawShift.startAt);
 
     if (normalizedWeekScheudle[dateKey]) {
-      normalizedWeekScheudle[dateKey].shifts.push(normalizedShift);
+      normalizedWeekScheudle[dateKey].shifts.push(NormalizedShift);
     }
   });
 

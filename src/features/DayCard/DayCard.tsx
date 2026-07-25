@@ -1,13 +1,13 @@
+import { normalizedDay } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import clsx from "clsx";
-import React from "react";
+import ShiftsGroup from "../ShiftsGroup/ShiftsGroup";
 
 interface DayCardProps {
-  day: string;
-  isToday: boolean;
-  children: React.ReactNode;
+  day: normalizedDay;
 }
 
-export default function DayCard({ day, isToday, children }: DayCardProps) {
+export default function DayCard({ day }: DayCardProps) {
+  const { isToday, uiDate, shifts } = day;
   return (
     <div
       className={clsx(
@@ -16,11 +16,9 @@ export default function DayCard({ day, isToday, children }: DayCardProps) {
       )}
     >
       <div className="bg-primary/10">
-        {/* Title of day */}
-        <h2>{day}</h2>
+        <h2>{uiDate}</h2>
       </div>
-      {/* Shifts group  */}
-      {children}
+      <ShiftsGroup shifts={shifts} />
     </div>
   );
 }
