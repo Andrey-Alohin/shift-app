@@ -22,7 +22,7 @@ export default function DayCard({ day }: DayCardProps) {
       </div>
       {topList.length > 0 && (
         <div className="bg-amber-400 p-1.5 rounded-md flex gap-2 relative justify-stretch">
-          <div className="h-[100px] w-[100%] border-2 top-0 right-0 rounded-md border-amber-950 absolute"></div>
+          <div className="h-44 w-[100%] border-2 p-2 top-0 right-0 rounded-md border-amber-950 absolute"></div>
           {topList.map((shift) => (
             <ShiftCard key={shift._id} shift={shift} />
           ))}
