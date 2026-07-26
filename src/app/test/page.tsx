@@ -114,7 +114,9 @@ export default function Test() {
   console.log(shiftsObj);
   return (
     <main>
-      <Week weekSchedule={shiftsObj} />
+      <div className=" container m-auto">
+        <Week weekSchedule={shiftsObj} />
+      </div>
     </main>
   );
 }
