@@ -7,7 +7,7 @@ interface WeekProps {
 
 export default function Week({ weekSchedule }: WeekProps) {
   return (
-    <div className="flex md:flex-row sm:overflow-hidden items-strech">
+    <div className="flex md:flex-row overflow-x-auto gap-4 items-strech">
       {Object.values(weekSchedule).map((day) => (
         <DayCard key={day.uiDate} day={day} />
       ))}

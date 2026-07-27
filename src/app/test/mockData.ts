@@ -66,7 +66,7 @@ export const mockRawSchedule: WeeklySchedule = [
     type: ShiftType.Work,
     originGroupId: mockMainGroup,
     actualGroupId: mockMainGroup,
-    startAt: "2026-07-20T10:00:00.000Z",
+    startAt: "2026-07-20T05:00:00.000Z",
     endAt: "2026-07-20T19:00:00.000Z",
   },
   {

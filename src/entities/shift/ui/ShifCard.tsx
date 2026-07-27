@@ -1,15 +1,15 @@
 import { ShiftType } from "@/shared/api";
 import Avatar from "@/shared/ui/Avatar";
-import TimeLine from "@/shared/ui/TimeLine";
+import RangeBar from "@/shared/ui/RangeBar";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
-import clsx from "clsx";
-import { use } from "react";
+import { number } from "yup";
 
 interface ShiftCardProps {
   shift: NormalizedShift;
+  funcCalcRenge(start: number, end: number): { left: number; width: number };
 }
 
-export default function ShiftCard({ shift }: ShiftCardProps) {
+export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
   const {
     startAt,
     endAt,
@@ -21,6 +21,13 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
     relatedGroup,
   } = shift;
   let bgClass = "bg-gray-100 text-gray-800 border-gray-300";
+  const start = Number(
+    startAt.split(":")[0] + "." + Number(startAt.split(":")[1]) / 60,
+  );
+  const end = Number(
+    endAt.split(":")[0] + "." + Number(endAt.split(":")[1]) / 60,
+  );
+  const { left, width } = funcCalcRenge(start, end);
 
   if (shift.type === ShiftType.Work) {
     bgClass = "bg-emerald-50 text-emerald-800 border-emerald-200";
@@ -30,24 +37,36 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
     bgClass = "bg-sky-50 text-sky-800 border-sky-200";
   }
   return (
-    <div className="relative flex-col px-0.5 gap-2 items-center ">
-      {type === ShiftType.Work && <TimeLine start={startAt} end={endAt} full />}
-      <Avatar
-        src={user.avatarUrl}
-        name={user.name}
-        className="border-cyan-400"
-      />
-      <div>
-        {isMe && (
-          <span className="absolute top-1 w-2 h-2 bg-indigo-700 rounded-full" />
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <Avatar
+          src={user.avatarUrl}
+          name={user.name}
+          className="size-6 text-xs shrink-0 border-cyan-400"
+        />
+        <p className="text-sm font-medium text-foreground truncate">
+          {user.name}
+        </p>
+        {isOutstaffIn && (
+          <p className="p-1.5 text-sm bg-orange-300 text-orange-700 rounded-full">
+            Аутстаф
+          </p>
         )}
-        {type === ShiftType.Work && (
-          <h3>
-            {startAt} - {endAt}
-          </h3>
+        {isOutstaffOut && (
+          <p className="text-sm bg-accent-foreground text-accent rounded-md p-0.5">
+            <span className="font-semibold">Працює на</span>{" "}
+            {relatedGroup?.name}
+          </p>
         )}
-        <p>{user.name}</p>
       </div>
+      {type === ShiftType.Work && (
+        <div className="relative h-8 bg-muted/50 rounded-md overflow-hidden">
+          <RangeBar
+            start={left}
+            length={width}
+          >{`${startAt}-${endAt}`}</RangeBar>
+        </div>
+      )}
     </div>
   );
 }
