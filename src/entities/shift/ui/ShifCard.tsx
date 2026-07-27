@@ -3,7 +3,6 @@ import Avatar from "@/shared/ui/Avatar";
 import RangeBar from "@/shared/ui/RangeBar";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import clsx from "clsx";
-import { number } from "yup";
 
 interface ShiftCardProps {
   shift: NormalizedShift;
