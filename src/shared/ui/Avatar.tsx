@@ -30,7 +30,7 @@ function Avatar({ src, name, className, ...restProps }: AvatarProps) {
           className="h-full w-full object-cover"
         />
       ) : (
-        <span role="img" aria-label={"picture " + name} className="font-medium">
+        <span role="img" aria-label={"picture " + name} className="font-sm">
           {getInitials(name)}
         </span>
       )}

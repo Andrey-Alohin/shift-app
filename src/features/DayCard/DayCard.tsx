@@ -24,7 +24,7 @@ export default function DayCard({ day }: DayCardProps) {
   return (
     <div
       className={clsx(
-        "w-80 md:w-96 shrink-0 rounded-lg flex flex-col text-card-foreground shadow-sm border",
+        " shrink-0 rounded-lg flex flex-col text-card-foreground shadow-sm border",
         isToday && "border-primary/40",
       )}
     >

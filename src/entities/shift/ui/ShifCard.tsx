@@ -2,6 +2,7 @@ import { ShiftType } from "@/shared/api";
 import Avatar from "@/shared/ui/Avatar";
 import RangeBar from "@/shared/ui/RangeBar";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import clsx from "clsx";
 import { number } from "yup";
 
 interface ShiftCardProps {
@@ -37,12 +38,14 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
     bgClass = "bg-sky-50 text-sky-800 border-sky-200";
   }
   return (
-    <div className="space-y-2">
-      <div className="flex items-center gap-2">
+    <div
+      className={clsx("space-y-2 p-0.5", isMe && "border-l-2 border-accent")}
+    >
+      <div className="flex relative items-center gap-2">
         <Avatar
           src={user.avatarUrl}
           name={user.name}
-          className="size-6 text-xs shrink-0 border-cyan-400"
+          className="size-6 text-xs shrink-0 border-cyan-400 text-amber-800"
         />
         <p className="text-sm font-medium text-foreground truncate">
           {user.name}
@@ -64,6 +67,7 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
           <RangeBar
             start={left}
             length={width}
+            className="text-sm"
           >{`${startAt}-${endAt}`}</RangeBar>
         </div>
       )}
