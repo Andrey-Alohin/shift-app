@@ -1,8 +1,8 @@
 import ShiftCard from "@/entities/shift/ui/ShifCard";
 import { splitShiftByList } from "@/entities/weekScheudle/lib/splitShiftsByList";
 import { createRangeCalculator } from "@/shared/lib/range";
+import { cn } from "@/shared/utils";
 import { normalizedDay } from "@/shared/utils/normalizeAndGroupWeekScheudle";
-import clsx from "clsx";
 
 interface DayCardProps {
   day: normalizedDay;
@@ -23,18 +23,19 @@ export default function DayCard({ day }: DayCardProps) {
   const calculateStartLength = createRangeCalculator(8, 21);
   return (
     <li
-      className={clsx(
+      className={cn(
         " shrink-0 rounded-lg flex flex-col text-card-foreground shadow-sm border",
         isToday && "border-primary/40",
       )}
     >
       <div
-        className={clsx(
-          "p-4 border-b font-semibold",
-          isToday && "text-primary",
-        )}
+        className={cn("p-4 border-b font-semibold", isToday && "text-primary")}
       >
-        <h3 className="capitalize">{formatDayHeader(uiDate)}</h3>
+        <h3 className="capitalize">
+          {formatDayHeader(uiDate).split(",")[0]}
+          <br />
+          {formatDayHeader(uiDate).split(",")[1]}
+        </h3>
       </div>
       <div className="grow overflow-y-auto">
         <div className="p-4 space-y-4">

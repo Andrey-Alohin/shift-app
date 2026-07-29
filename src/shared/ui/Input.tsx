@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "../utils";
 
 export default function Input({
   className,
@@ -9,7 +9,7 @@ export default function Input({
     <>
       <input
         type={type || "text"}
-        className={clsx(
+        className={cn(
           "w-full bg-secondary border border-border rounded-xl px-4 py-3 pr-11 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all",
           className,
         )}

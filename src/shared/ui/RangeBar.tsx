@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "../utils";
 import { ComponentPropsWithRef } from "react";
 
 interface RangeBarProps extends ComponentPropsWithRef<"div"> {
@@ -11,7 +11,7 @@ function RangeBar({ start, length, className, ...restProps }: RangeBarProps) {
   return (
     <>
       <div
-        className={clsx(
+        className={cn(
           "absolute flex items-center justify-center rounded-lg px-0.5 h-full bg-indigo-300",
           className,
         )}

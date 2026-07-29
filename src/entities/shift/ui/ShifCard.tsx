@@ -1,8 +1,8 @@
 import { ShiftType } from "@/shared/api";
 import Avatar from "@/shared/ui/Avatar";
 import RangeBar from "@/shared/ui/RangeBar";
+import { cn } from "@/shared/utils";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
-import clsx from "clsx";
 
 interface ShiftCardProps {
   shift: NormalizedShift;
@@ -37,7 +37,7 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
     bgClass = "bg-sky-50 text-sky-800 border-sky-200";
   }
   return (
-    <li className={clsx("space-y-2 p-0.5", isMe && "border-l-2 border-accent")}>
+    <li className={cn("space-y-2 p-0.5", isMe && "border-l-2 border-accent")}>
       <div className="flex relative items-center gap-2">
         <Avatar
           src={user.avatarUrl}

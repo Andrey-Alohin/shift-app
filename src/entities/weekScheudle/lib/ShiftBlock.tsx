@@ -1,7 +1,7 @@
 import { ShiftType } from "@/shared/api";
 import { createRangeCalculator } from "@/shared/lib/range";
+import { cn } from "@/shared/utils";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
-import clsx from "clsx";
 
 interface ShiftBlockProps {
   shift: NormalizedShift;
@@ -90,7 +90,7 @@ export default function ShiftBlock({
 
   return (
     <div
-      className={clsx(
+      className={cn(
         "absolute rounded-lg px-2 flex items-center justify-center overflow-hidden group border",
         isSmall ? "h-8" : "h-10",
         appearance,
@@ -103,9 +103,7 @@ export default function ShiftBlock({
       title={`${shift.user.name}: ${label}`}
     >
       <div
-        className={clsx(
-          "text-xs font-medium text-center whitespace-nowrap px-1",
-        )}
+        className={cn("text-xs font-medium text-center whitespace-nowrap px-1")}
       >
         {label}
       </div>

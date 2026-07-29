@@ -7,7 +7,7 @@ import { User } from "@/shared/api";
 // import { cn } from "@/shared/lib/utils";
 import UserTimelineRow from "./UserTimelineRow";
 import UserStatusRow from "./UserStatusRow";
-import clsx from "clsx";
+import { cn } from "@/shared/utils";
 
 interface DayCardProps {
   day: normalizedDay;
@@ -46,7 +46,7 @@ export default function DayCard({ day }: DayCardProps) {
     <div className="w-80 md:w-96 shrink-0 rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col">
       {/* Header */}
       <div
-        className={clsx(
+        className={cn(
           "p-4 border-b font-semibold",
           day.isToday && "text-primary",
         )}

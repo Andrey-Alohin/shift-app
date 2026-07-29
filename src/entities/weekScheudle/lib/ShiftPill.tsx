@@ -1,6 +1,6 @@
 import { ShiftType } from "@/shared/api";
+import { cn } from "@/shared/utils";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
-import clsx from "clsx";
 
 interface ShiftPillProps {
   shift: NormalizedShift;
@@ -45,7 +45,7 @@ export default function ShiftPill({ shift }: ShiftPillProps) {
 
   return (
     <div
-      className={clsx(
+      className={cn(
         "px-1.5 py-0.5 rounded-md text-[11px] font-medium border whitespace-nowrap",
         appearance,
       )}
