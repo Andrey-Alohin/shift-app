@@ -3,6 +3,7 @@ import Avatar from "@/shared/ui/Avatar";
 import RangeBar from "@/shared/ui/RangeBar";
 import { cn } from "@/shared/utils";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { ShiftStatusBadge } from "./ShiftStatusBadge";
 
 interface ShiftCardProps {
   shift: NormalizedShift;
@@ -47,17 +48,12 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
         <p className="text-sm font-medium text-foreground truncate">
           {user.name}
         </p>
-        {isOutstaffIn && (
-          <p className="p-1.5 text-sm bg-orange-300 text-orange-700 rounded-full">
-            Аутстаф
-          </p>
-        )}
-        {isOutstaffOut && (
-          <p className="text-sm bg-accent-foreground text-accent rounded-md p-0.5">
-            <span className="font-semibold">Працює на</span>{" "}
-            {relatedGroup?.name}
-          </p>
-        )}
+        <ShiftStatusBadge
+          type={type}
+          isOutIn={isOutstaffIn}
+          isOutOut={isOutstaffOut}
+          groupName={relatedGroup?.name}
+        />
       </div>
       {type === ShiftType.Work && (
         <div className="relative h-8 bg-muted/50 rounded-md overflow-hidden">

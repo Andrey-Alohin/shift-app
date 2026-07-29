@@ -35,7 +35,7 @@ export function ShiftStatusBadge({
   }
 
   if (isOutIn) {
-    const txt = groupName || "З іншого відділення";
+    const txt = groupName || "іншого відділення";
     return (
       <Badge
         variant="amber"
@@ -43,16 +43,16 @@ export function ShiftStatusBadge({
         title={`Працівник з: ${txt}`}
       >
         <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-        {txt}
+        {"З " + txt}
       </Badge>
     );
   }
   if (isOutOut) {
-    const txt = groupName || "На іншому відділенні";
+    const txt = groupName || "іншому відділенні";
     return (
-      <Badge variant="amber" className={className} title={txt}>
+      <Badge variant="amber" className={className} title={"На " + txt}>
         <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-        {txt}
+        {"На " + txt}
       </Badge>
     );
   }
