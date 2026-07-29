@@ -37,9 +37,7 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
     bgClass = "bg-sky-50 text-sky-800 border-sky-200";
   }
   return (
-    <div
-      className={clsx("space-y-2 p-0.5", isMe && "border-l-2 border-accent")}
-    >
+    <li className={clsx("space-y-2 p-0.5", isMe && "border-l-2 border-accent")}>
       <div className="flex relative items-center gap-2">
         <Avatar
           src={user.avatarUrl}
@@ -70,6 +68,6 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
           >{`${startAt}-${endAt}`}</RangeBar>
         </div>
       )}
-    </div>
+    </li>
   );
 }

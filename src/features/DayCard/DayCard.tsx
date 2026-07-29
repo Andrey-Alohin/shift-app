@@ -13,7 +13,7 @@ const formatDayHeader = (uiDate: string) => {
   return date.toLocaleDateString("uk-UA", {
     weekday: "long",
     day: "numeric",
-    month: "long",
+    month: "short",
   });
 };
 
@@ -22,7 +22,7 @@ export default function DayCard({ day }: DayCardProps) {
   const { topList, bottomList } = splitShiftByList(shifts);
   const calculateStartLength = createRangeCalculator(8, 21);
   return (
-    <div
+    <li
       className={clsx(
         " shrink-0 rounded-lg flex flex-col text-card-foreground shadow-sm border",
         isToday && "border-primary/40",
@@ -42,7 +42,7 @@ export default function DayCard({ day }: DayCardProps) {
             На зміні
           </h4>
           {topList.length > 0 ? (
-            <>
+            <ul>
               {topList.map((shift) => (
                 <ShiftCard
                   key={shift._id}
@@ -50,7 +50,7 @@ export default function DayCard({ day }: DayCardProps) {
                   funcCalcRenge={calculateStartLength}
                 />
               ))}
-            </>
+            </ul>
           ) : (
             <p className="text-sm text-muted-foreground italic">
               Ніхто не працює
@@ -59,7 +59,7 @@ export default function DayCard({ day }: DayCardProps) {
         </div>
       </div>
       {bottomList.length > 0 && (
-        <div className="bg-green-400 p-1.5 rounded-md">
+        <ul className="bg-green-400 p-1.5 rounded-md">
           {bottomList.map((shift) => (
             <ShiftCard
               key={shift._id}
@@ -67,8 +67,8 @@ export default function DayCard({ day }: DayCardProps) {
               funcCalcRenge={calculateStartLength}
             />
           ))}
-        </div>
+        </ul>
       )}
-    </div>
+    </li>
   );
 }
