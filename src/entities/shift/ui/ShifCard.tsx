@@ -1,7 +1,6 @@
 import { ShiftType } from "@/shared/api";
 import Avatar from "@/shared/ui/Avatar";
 import RangeBar from "@/shared/ui/RangeBar";
-import { cn } from "@/shared/utils";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import { ShiftStatusBadge } from "./ShiftStatusBadge";
 
@@ -21,29 +20,23 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
     isOutstaffOut,
     relatedGroup,
   } = shift;
-  let bgClass = "bg-gray-100 text-gray-800 border-gray-300";
-  const start = Number(
-    startAt.split(":")[0] + "." + Number(startAt.split(":")[1]) / 60,
-  );
-  const end = Number(
-    endAt.split(":")[0] + "." + Number(endAt.split(":")[1]) / 60,
-  );
+  const start =
+    Number(startAt.split(":")[0]) + Number(startAt.split(":")[1]) / 60;
+  const end = Number(endAt.split(":")[0]) + Number(endAt.split(":")[1]) / 60;
   const { left, width } = funcCalcRenge(start, end);
-
-  if (shift.type === ShiftType.Work) {
-    bgClass = "bg-emerald-50 text-emerald-800 border-emerald-200";
-  } else if (shift.type === ShiftType.SickLeave) {
-    bgClass = "bg-amber-50 text-amber-800 border-amber-200";
-  } else if (shift.type === ShiftType.Vacation) {
-    bgClass = "bg-sky-50 text-sky-800 border-sky-200";
-  }
   return (
-    <li className={cn("space-y-2 p-0.5", isMe && "border-l-2 border-accent")}>
-      <div className="flex relative items-center gap-2">
+    <li
+      className={`flex flex-row flex-wrap items-center gap-3 px-2 py-1.5 rounded-xl border transition-all min-w-3xs ${
+        isMe
+          ? "border-primary/30 bg-primary/6"
+          : "border-border bg-card hover:border-white/12"
+      }`}
+    >
+      <div className="flex flex-wrap relative items-cen543ter gap-2">
         <Avatar
           src={user.avatarUrl}
           name={user.name}
-          className="size-6 text-xs shrink-0 border-cyan-400 text-amber-800"
+          className="size-6 text-xs shrink-0 text-stone-800"
         />
         <p className="text-sm font-medium text-foreground truncate">
           {user.name}
@@ -56,13 +49,23 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
         />
       </div>
       {type === ShiftType.Work && (
-        <div className="relative h-8 bg-muted/50 rounded-md overflow-hidden">
-          <RangeBar
-            start={left}
-            length={width}
-            className="text-sm"
-          >{`${startAt}-${endAt}`}</RangeBar>
-        </div>
+        <>
+          <div className="relative w-full h-2 text-[10px] text-slate-400 font-mono select-none">
+            <span className="absolute left-0 border-l-2 border-l-muted h-7 p-0.5">
+              8:00
+            </span>
+            <span className="absolute right-0 border-r-2 border-r-muted h-7 p-0.5">
+              21:00
+            </span>
+          </div>
+          <div className="relative w-full h-6 md:h-9 bg-muted rounded-md overflow-hidden">
+            <RangeBar
+              start={left}
+              length={width}
+              className="text-xs md:text-sm"
+            >{`${startAt}-${endAt}`}</RangeBar>
+          </div>
+        </>
       )}
     </li>
   );

@@ -12,7 +12,7 @@ function RangeBar({ start, length, className, ...restProps }: RangeBarProps) {
     <>
       <div
         className={cn(
-          "absolute flex items-center justify-center rounded-lg px-0.5 h-full bg-indigo-300",
+          "absolute flex items-center justify-center rounded-lg px-0.5 h-full bg-indigo-400",
           className,
         )}
         style={{ left: `${start}%`, width: `${length}%` }}
