@@ -1,13 +1,20 @@
 import { cn } from "../utils";
-import { ComponentPropsWithRef } from "react";
+import { ComponentPropsWithRef, ReactNode } from "react";
 
 interface RangeBarProps extends ComponentPropsWithRef<"div"> {
   start: number;
   length: number;
   className: string;
+  children: ReactNode;
 }
 
-function RangeBar({ start, length, className, ...restProps }: RangeBarProps) {
+function RangeBar({
+  start,
+  length,
+  className,
+  children,
+  ...restProps
+}: RangeBarProps) {
   return (
     <>
       <div
@@ -17,7 +24,9 @@ function RangeBar({ start, length, className, ...restProps }: RangeBarProps) {
         )}
         style={{ left: `${start}%`, width: `${length}%` }}
         {...restProps}
-      ></div>
+      >
+        {children}
+      </div>
     </>
   );
 }
