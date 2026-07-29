@@ -15,10 +15,18 @@ export enum Role {
   Manager = "manager",
 }
 
+interface DaySchedule {
+  day: number;
+  isOpen: boolean;
+  openTime: string;
+  closeTime: string;
+}
+
 export interface Group {
   _id: string;
   name: string;
   managerId: string | User;
+  schedule: DaySchedule[];
 }
 
 export interface User {
