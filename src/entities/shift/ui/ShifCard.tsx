@@ -26,13 +26,13 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
   const { left, width } = funcCalcRenge(start, end);
   return (
     <li
-      className={`flex flex-row flex-wrap items-center gap-3 px-2 py-1.5 rounded-xl border transition-all min-w-3xs ${
+      className={`flex flex-row flex-wrap items-center gap-3 px-2 py-1.5 rounded-xl border transition-all min-w-0 overflow-hidden ${
         isMe
           ? "border-primary/30 bg-primary/6"
           : "border-border bg-card hover:border-white/12"
       }`}
     >
-      <div className="flex flex-wrap relative items-cen543ter gap-2">
+      <div className="flex flex-wrap relative items-center gap-2 truncate">
         <Avatar
           src={user.avatarUrl}
           name={user.name}

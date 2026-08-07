@@ -1,4 +1,4 @@
-import { ApiError, ApiResponse } from "@/lib/backend";
+import { ApiResponse, ApiError } from "@/shared/api";
 import axios, { isAxiosError } from "axios";
 import { NextResponse } from "next/server";
 

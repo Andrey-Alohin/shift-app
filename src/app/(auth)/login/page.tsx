@@ -3,8 +3,8 @@ import * as Yup from "yup";
 import DynamicForm from "@/components/Form/Form";
 import { FormikHelpers } from "formik";
 import axios, { isAxiosError } from "axios";
-import { ApiError } from "@/lib/backend";
 import { useRouter } from "next/navigation";
+import { ApiError } from "next/dist/server/api-utils";
 
 const fields = [
   {

@@ -38,7 +38,7 @@ export default function DayCard({ day }: DayCardProps) {
         </h3>
       </div>
       <div className="grow">
-        <section className="p-4 space-y-4">
+        <section className="p-4 md:p-2 space-y-4">
           <h4 className="text-sm font-medium text-muted-foreground">
             На зміні
           </h4>
@@ -60,8 +60,8 @@ export default function DayCard({ day }: DayCardProps) {
         </section>
       </div>
       {bottomList.length > 0 && (
-        <section className="p-4 border-t border-border/40 bg-muted/10">
-          <h4 className="text-sm font-medium text-muted-foreground">
+        <section className="p-4 md:p-2 border-t border-border/40 bg-muted/10">
+          <h4 className="text-sm font-medium text-muted-foreground mb-2">
             Поза відділенням
           </h4>
           <ul className="opacity-85">
