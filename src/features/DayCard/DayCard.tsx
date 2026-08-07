@@ -37,28 +37,24 @@ export default function DayCard({ day }: DayCardProps) {
           {formatDayHeader(uiDate).split(",")[1]}
         </h3>
       </div>
-      <div className="grow">
-        <section className="p-4 md:p-2 space-y-4">
-          <h4 className="text-sm font-medium text-muted-foreground">
-            На зміні
-          </h4>
-          {topList.length > 0 ? (
-            <ul className="flex gap-2 flex-col">
-              {topList.map((shift) => (
-                <ShiftCard
-                  key={shift._id}
-                  shift={shift}
-                  funcCalcRenge={calculateStartLength}
-                />
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-muted-foreground italic">
-              Ніхто не працює
-            </p>
-          )}
-        </section>
-      </div>
+      <section className="grow p-4 md:p-2 space-y-4">
+        <h4 className="text-sm font-medium text-muted-foreground">На зміні</h4>
+        {topList.length > 0 ? (
+          <ul className="flex gap-2 flex-col">
+            {topList.map((shift) => (
+              <ShiftCard
+                key={shift._id}
+                shift={shift}
+                funcCalcRenge={calculateStartLength}
+              />
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted-foreground italic">
+            Ніхто не працює
+          </p>
+        )}
+      </section>
       {bottomList.length > 0 && (
         <section className="p-4 md:p-2 border-t border-border/40 bg-muted/10">
           <h4 className="text-sm font-medium text-muted-foreground mb-2">
