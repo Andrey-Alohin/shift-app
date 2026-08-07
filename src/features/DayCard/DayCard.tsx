@@ -60,7 +60,7 @@ export default function DayCard({ day }: DayCardProps) {
         </section>
       </div>
       {bottomList.length > 0 && (
-        <section className="p-4 border-t border-border/40">
+        <section className="p-4 border-t border-border/40 bg-muted/10">
           <h4 className="text-sm font-medium text-muted-foreground">
             Поза відділенням
           </h4>
