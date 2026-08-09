@@ -2,10 +2,10 @@ import ShiftCard from "@/entities/shift/ui/ShifCard";
 import { splitShiftByList } from "@/entities/weekScheudle/lib/splitShiftsByList";
 import { createRangeCalculator } from "@/shared/lib/range";
 import { cn } from "@/shared/utils";
-import { normalizedDay } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { NormalizedDay } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 
 interface DayCardProps {
-  day: normalizedDay;
+  day: NormalizedDay;
 }
 
 const formatDayHeader = (uiDate: string) => {

@@ -1,6 +1,6 @@
 import {
   NormalizedShift,
-  normalizedDay,
+  NormalizedDay,
 } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import { splitShiftByList } from "./splitShiftsByList";
 import { User } from "@/shared/api";
@@ -10,7 +10,7 @@ import UserStatusRow from "./UserStatusRow";
 import { cn } from "@/shared/utils";
 
 interface DayCardProps {
-  day: normalizedDay;
+  day: NormalizedDay;
 }
 
 // Допоміжна функція для групування змін за користувачем для відображення в картці

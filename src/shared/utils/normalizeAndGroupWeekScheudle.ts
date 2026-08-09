@@ -1,4 +1,5 @@
 import { Group, ShiftType, User, WeeklySchedule } from "../api";
+import { canManageShift } from "../lib/range/persmissions";
 
 interface NormalizeArguments {
   schedule: WeeklySchedule;
@@ -16,12 +17,18 @@ export interface NormalizedShift {
   isOutstaffIn: boolean;
   isOutstaffOut: boolean;
   isMe: boolean;
+  timelineBounds: {
+    startAt: string;
+    endAt: string;
+  };
+  originGroup: Group;
+  canEdit: boolean;
   startAt: string;
   endAt: string;
   relatedGroup?: Group;
 }
 
-export interface normalizedDay {
+export interface NormalizedDay {
   uiDate: string;
   isToday: boolean;
   shifts: NormalizedShift[];
@@ -59,8 +66,8 @@ const isToday = (dateIso: string | Date): boolean => {
 const generateSkeletonWeekScheudle = (
   startISO: string,
   endISO: string,
-): Record<string, normalizedDay> => {
-  const skeletonWeek: Record<string, normalizedDay> = {};
+): Record<string, NormalizedDay> => {
+  const skeletonWeek: Record<string, NormalizedDay> = {};
   const current = new Date(startISO);
   const end = new Date(endISO);
   while (current <= end) {
@@ -81,7 +88,7 @@ export default function normalizeAndGroupWeekScheudle({
   currentUser,
 }: NormalizeArguments) {
   const currentGroup = currentUser.groupId as Group;
-  const normalizedWeekScheudle: Record<string, normalizedDay> =
+  const normalizedWeekScheudle: Record<string, NormalizedDay> =
     generateSkeletonWeekScheudle(weekBounds.startAt, weekBounds.endAt);
 
   schedule.forEach((rawShift) => {
@@ -97,12 +104,23 @@ export default function normalizeAndGroupWeekScheudle({
       currentGroup._id === originGroup._id &&
       currentGroup._id !== actualGroup._id;
 
-    const NormalizedShift: NormalizedShift = {
+    const dayIndex = new Date(rawShift.startAt).getDay();
+
+    const { openTime: startAt, closeTime: endAt } =
+      actualGroup.schedule[dayIndex === 0 ? 6 : dayIndex - 1];
+
+    const normalizedShift: NormalizedShift = {
       _id: rawShift._id,
       user: userObj,
       type: rawShift.type,
       isOutstaffIn,
       isOutstaffOut,
+      originGroup,
+      timelineBounds: {
+        startAt,
+        endAt,
+      },
+      canEdit: false,
       isMe: userObj._id === currentUser._id,
       startAt: formatToKyivTime(rawShift.startAt),
       endAt: formatToKyivTime(rawShift.endAt),
@@ -112,10 +130,12 @@ export default function normalizeAndGroupWeekScheudle({
       }),
     };
 
+    normalizedShift.canEdit = canManageShift(userObj, normalizedShift);
+
     const dateKey = formatToKyivDate(rawShift.startAt);
 
     if (normalizedWeekScheudle[dateKey]) {
-      normalizedWeekScheudle[dateKey].shifts.push(NormalizedShift);
+      normalizedWeekScheudle[dateKey].shifts.push(normalizedShift);
     }
   });
 
@@ -131,4 +151,4 @@ export default function normalizeAndGroupWeekScheudle({
   return normalizedWeekScheudle;
 }
 
-export type NormalizedWeekSchedule = Record<string, normalizedDay>;
+export type NormalizedWeekSchedule = Record<string, NormalizedDay>;

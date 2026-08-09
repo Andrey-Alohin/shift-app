@@ -1,19 +1,31 @@
 import { Group, ShiftType, User, WeeklySchedule } from "@/shared/api";
+const DEFAULT_WEEKLY_SCHEDULE = [
+  { day: 1, isOpen: true, openTime: "08:00", closeTime: "21:00" },
+  { day: 2, isOpen: true, openTime: "08:00", closeTime: "21:00" },
+  { day: 3, isOpen: true, openTime: "08:00", closeTime: "21:00" },
+  { day: 4, isOpen: true, openTime: "08:00", closeTime: "21:00" },
+  { day: 5, isOpen: true, openTime: "08:00", closeTime: "21:00" },
+  { day: 6, isOpen: true, openTime: "08:00", closeTime: "19:00" },
+  { day: 7, isOpen: true, openTime: "08:00", closeTime: "19:00" },
+];
 
 // 1. Мокові групи
 export const mockMainGroup: Group = {
   _id: "group-main-01",
   name: "Відділ А (Основний)",
+  schedule: DEFAULT_WEEKLY_SCHEDULE,
 };
 
 export const mockPodilGroup: Group = {
   _id: "group-podil-02",
   name: "Відділ Б (Поділ)",
+  schedule: DEFAULT_WEEKLY_SCHEDULE,
 };
 
 export const mockPecherskGroup: Group = {
   _id: "group-pechersk-03",
   name: "Відділ В (Печерськ)",
+  schedule: DEFAULT_WEEKLY_SCHEDULE,
 };
 
 // 2. Мокові користувачі
