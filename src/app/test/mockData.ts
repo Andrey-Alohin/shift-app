@@ -1,4 +1,4 @@
-import { Group, ShiftType, User, WeeklySchedule } from "@/shared/api";
+import { Group, Role, ShiftType, User, WeeklySchedule } from "@/shared/api";
 const DEFAULT_WEEKLY_SCHEDULE = [
   { day: 1, isOpen: true, openTime: "08:00", closeTime: "21:00" },
   { day: 2, isOpen: true, openTime: "08:00", closeTime: "21:00" },
@@ -13,6 +13,7 @@ const DEFAULT_WEEKLY_SCHEDULE = [
 export const mockMainGroup: Group = {
   _id: "group-main-01",
   name: "Відділ А (Основний)",
+  managerId: "user-me",
   schedule: DEFAULT_WEEKLY_SCHEDULE,
 };
 
@@ -32,9 +33,9 @@ export const mockPecherskGroup: Group = {
 export const mockCurrentUser: User = {
   _id: "user-me",
   name: "Андрій (Я)",
+  role: Role.Manager,
   groupId: mockMainGroup,
 };
-
 export const mockColleague1: User = {
   _id: "user-colleague-1",
   name: "Олексій Коваленко",

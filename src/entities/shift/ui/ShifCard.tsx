@@ -47,6 +47,11 @@ export default function ShiftCard({ shift, funcCalcRenge }: ShiftCardProps) {
           isOutOut={isOutstaffOut}
           groupName={relatedGroup?.name}
         />
+        {shift.canEdit && (
+          <>
+            <p>Can Edit</p>
+          </>
+        )}
       </div>
       {type === ShiftType.Work && (
         <>
