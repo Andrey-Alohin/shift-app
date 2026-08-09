@@ -130,7 +130,7 @@ export default function normalizeAndGroupWeekScheudle({
       }),
     };
 
-    normalizedShift.canEdit = canManageShift(userObj, normalizedShift);
+    normalizedShift.canEdit = canManageShift(currentUser, normalizedShift);
 
     const dateKey = formatToKyivDate(rawShift.startAt);
 
