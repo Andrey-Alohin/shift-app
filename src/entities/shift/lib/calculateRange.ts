@@ -1,8 +1,3 @@
-const timeToHours = (timeStr: string): number => {
-  const [hours, minutes] = timeStr.split(":").map(Number);
-  return hours + minutes / 60;
-};
-
 interface TimeLineBounds {
   startHour: string;
   endHour: string;
