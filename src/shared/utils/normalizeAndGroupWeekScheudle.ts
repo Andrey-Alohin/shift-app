@@ -18,8 +18,8 @@ export interface NormalizedShift {
   isOutstaffOut: boolean;
   isMe: boolean;
   timelineBounds: {
-    startAt: string;
-    endAt: string;
+    startHour: string;
+    endHour: string;
   };
   originGroup: Group;
   canEdit: boolean;
@@ -106,7 +106,7 @@ export default function normalizeAndGroupWeekScheudle({
 
     const dayIndex = new Date(rawShift.startAt).getDay();
 
-    const { openTime: startAt, closeTime: endAt } =
+    const { openTime: startHour, closeTime: endHour } =
       actualGroup.schedule[dayIndex === 0 ? 6 : dayIndex - 1];
 
     const normalizedShift: NormalizedShift = {
@@ -117,8 +117,8 @@ export default function normalizeAndGroupWeekScheudle({
       isOutstaffOut,
       originGroup,
       timelineBounds: {
-        startAt,
-        endAt,
+        startHour,
+        endHour,
       },
       canEdit: false,
       isMe: userObj._id === currentUser._id,

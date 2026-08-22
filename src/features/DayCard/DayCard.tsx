@@ -1,6 +1,5 @@
 import ShiftCard from "@/entities/shift/ui/ShifCard";
 import { splitShiftByList } from "@/entities/weekScheudle/lib/splitShiftsByList";
-import { createRangeCalculator } from "@/shared/lib/range";
 import { cn } from "@/shared/utils";
 import { NormalizedDay } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 
@@ -20,7 +19,6 @@ const formatDayHeader = (uiDate: string) => {
 export default function DayCard({ day }: DayCardProps) {
   const { isToday, uiDate, shifts } = day;
   const { topList, bottomList } = splitShiftByList(shifts);
-  const calculateStartLength = createRangeCalculator(8, 21);
   return (
     <li
       className={cn(
@@ -42,11 +40,7 @@ export default function DayCard({ day }: DayCardProps) {
         {topList.length > 0 ? (
           <ul className="flex gap-2 flex-col">
             {topList.map((shift) => (
-              <ShiftCard
-                key={shift._id}
-                shift={shift}
-                funcCalcRenge={calculateStartLength}
-              />
+              <ShiftCard key={shift._id} shift={shift} />
             ))}
           </ul>
         ) : (
@@ -62,11 +56,7 @@ export default function DayCard({ day }: DayCardProps) {
           </h4>
           <ul className="opacity-85">
             {bottomList.map((shift) => (
-              <ShiftCard
-                key={shift._id}
-                shift={shift}
-                funcCalcRenge={calculateStartLength}
-              />
+              <ShiftCard key={shift._id} shift={shift} />
             ))}
           </ul>
         </section>

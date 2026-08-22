@@ -1,6 +1,6 @@
 import { timeToMinutes } from "@/shared/lib/date";
 
-interface TimeLineBounds {
+export interface TimeLineBounds {
   startHour: string;
   endHour: string;
 }
