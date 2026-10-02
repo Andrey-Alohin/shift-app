@@ -1,15 +1,7 @@
-import Week from "@/features/Week/Week";
-import normalizeAndGroupWeekScheudle from "@/shared/utils/normalizeAndGroupWeekScheudle";
-import { mockNormalizeArguments } from "./mockData";
+import SchedulePage from "@/entities/weekScheudle/lib/page";
 
-export default function Test() {
-  const shiftsObj = normalizeAndGroupWeekScheudle(mockNormalizeArguments);
-  console.log(shiftsObj);
-  return (
-    <main>
-      <div className=" container m-auto">
-        <Week weekSchedule={shiftsObj} />
-      </div>
-    </main>
-  );
+function Page() {
+  return <SchedulePage />;
 }
+
+export default Page;

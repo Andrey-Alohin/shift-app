@@ -1,6 +1,6 @@
-import { mockNormalizeArguments } from "@/app/test/mockData";
 import normalizeAndGroupWeekScheudle from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import WeekView from "@/entities/weekScheudle/lib/WeekView";
+import { mockNormalizeArguments } from "@/app/schedule/mockData";
 
 export default function SchedulePage() {
   const normalizedWeek = normalizeAndGroupWeekScheudle(mockNormalizeArguments);

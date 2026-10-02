@@ -1,8 +1,8 @@
 import { ShiftType } from "@/shared/api";
-import Avatar from "@/shared/ui/Avatar";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import { ShiftStatusBadge } from "./ShiftStatusBadge";
 import { ShiftRangeBar } from "./ShiftRangeBar";
+import Avatar from "@/shared/ui/Avatar";
 
 interface ShiftCardProps {
   shift: NormalizedShift;
@@ -45,7 +45,7 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
         />
         {shift.canEdit && (
           <>
-            <p>Can Edit</p>
+            <button onClick={}>Edit</button>
           </>
         )}
       </div>
