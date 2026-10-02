@@ -3,6 +3,7 @@ import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import { ShiftStatusBadge } from "./ShiftStatusBadge";
 import { ShiftRangeBar } from "./ShiftRangeBar";
 import Avatar from "@/shared/ui/Avatar";
+import Link from "next/link";
 
 interface ShiftCardProps {
   shift: NormalizedShift;
@@ -45,7 +46,7 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
         />
         {shift.canEdit && (
           <>
-            <button onClick={}>Edit</button>
+            <Link href={`/schedule?date=1&editShiftId=${shift._id}`}>Edit</Link>
           </>
         )}
       </div>
