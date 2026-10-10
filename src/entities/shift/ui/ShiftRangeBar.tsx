@@ -18,11 +18,11 @@ export function ShiftRangeBar({
 
   return (
     <div className={`w-full flex flex-col gap-1 ${className}`}>
-      <div className="relative w-full h-2 text-[10px] text-slate-400 font-mono select-none">
-        <span className="absolute left-0 border-l-2 border-l-muted h-7 p-0.5">
+      <div className="relative w-full h-5 text-[10px] text-slate-400 font-mono select-none">
+        <span className="absolute left-0 border-l-2 border-l-muted h-8 p-0.5">
           {bounds.startHour}
         </span>
-        <span className="absolute right-0 border-r-2 border-r-muted h-7 p-0.5">
+        <span className="absolute right-0 border-r-2 border-r-muted h-8 p-0.5">
           {bounds.endHour}
         </span>
       </div>
