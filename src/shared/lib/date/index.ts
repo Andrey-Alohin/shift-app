@@ -1,1 +1,2 @@
-export { timeToMinutes, getDurationInHours } from "./timeToMinutes";
+export * from "./timeToMinutes";
+export * from "./formatters";

@@ -63,7 +63,7 @@ const isToday = (dateIso: string | Date): boolean => {
   );
 };
 
-const generateSkeletonWeekScheudle = (
+const generateSkeletonWeekSchedule = (
   startISO: string,
   endISO: string,
 ): Record<string, NormalizedDay> => {
@@ -82,14 +82,14 @@ const generateSkeletonWeekScheudle = (
   return skeletonWeek;
 };
 
-export default function normalizeAndGroupWeekScheudle({
+export default function normalizeAndGroupWeekSchedule({
   schedule,
   weekBounds,
   currentUser,
 }: NormalizeArguments) {
   const currentGroup = currentUser.groupId as Group;
-  const normalizedWeekScheudle: Record<string, NormalizedDay> =
-    generateSkeletonWeekScheudle(weekBounds.startAt, weekBounds.endAt);
+  const normalizedWeekSchedule: Record<string, NormalizedDay> =
+    generateSkeletonWeekSchedule(weekBounds.startAt, weekBounds.endAt);
 
   schedule.forEach((rawShift) => {
     const userObj = rawShift.user as User;
@@ -134,12 +134,12 @@ export default function normalizeAndGroupWeekScheudle({
 
     const dateKey = formatToKyivDate(rawShift.startAt);
 
-    if (normalizedWeekScheudle[dateKey]) {
-      normalizedWeekScheudle[dateKey].shifts.push(normalizedShift);
+    if (normalizedWeekSchedule[dateKey]) {
+      normalizedWeekSchedule[dateKey].shifts.push(normalizedShift);
     }
   });
 
-  Object.values(normalizedWeekScheudle).forEach((day) => {
+  Object.values(normalizedWeekSchedule).forEach((day) => {
     day.shifts.sort((a, b) => {
       if (a.isMe !== b.isMe) {
         return Number(b.isMe) - Number(a.isMe);
@@ -148,7 +148,7 @@ export default function normalizeAndGroupWeekScheudle({
     });
   });
 
-  return normalizedWeekScheudle;
+  return normalizedWeekSchedule;
 }
 
 export type NormalizedWeekSchedule = Record<string, NormalizedDay>;

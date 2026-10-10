@@ -1,15 +1,16 @@
-import Week from "@/features/Week/Week";
-import normalizeAndGroupWeekScheudle from "@/shared/utils/normalizeAndGroupWeekScheudle";
-import { mockNormalizeArguments } from "./mockData";
+import { formatToKiyvDate } from "@/shared/lib/date";
+import { setDate } from "date-fns";
+import { redirect } from "next/navigation";
 
-export default function Schedule() {
-  const shiftsObj = normalizeAndGroupWeekScheudle(mockNormalizeArguments);
-  console.log(shiftsObj);
-  return (
-    <main>
-      <div className=" container m-auto">
-        <Week weekSchedule={shiftsObj} />
-      </div>
-    </main>
-  );
+const getCurrentMonday = () => {
+  const today = new Date();
+  const day = today.getDay();
+  const monday = setDate(today, today.getDate() - day === 0 ? 6 : day - 1);
+  return formatToKiyvDate(monday);
+};
+
+export default function ScheduleRootPage() {
+  const currentMonday = getCurrentMonday();
+
+  redirect(`/schedule/${currentMonday}`);
 }

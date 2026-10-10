@@ -17,3 +17,8 @@ export enum WeekDaysFull {
   Sat = "субота",
   Sun = "неділя",
 }
+
+export enum WeekView {
+  Day = "day",
+  Week = "week",
+}
