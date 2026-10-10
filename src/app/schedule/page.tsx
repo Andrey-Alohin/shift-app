@@ -4,8 +4,9 @@ import { redirect } from "next/navigation";
 
 const getCurrentMonday = () => {
   const today = new Date();
-  const day = today.getDay();
-  const monday = setDate(today, today.getDate() - day === 0 ? 6 : day - 1);
+  console.log(today);
+  const day = today.getDay() === 0 ? 6 : today.getDay();
+  const monday = setDate(today, today.getDate() - day);
   return formatToKiyvDate(monday);
 };
 
