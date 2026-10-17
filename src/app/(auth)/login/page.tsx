@@ -5,60 +5,9 @@ import { FormikHelpers } from "formik";
 import axios, { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { ApiError } from "next/dist/server/api-utils";
-
-const fields = [
-  {
-    name: "email",
-    type: "email",
-    label: "Email",
-    placeholder: "name@company.com",
-  },
-  {
-    name: "password",
-    type: "password",
-    label: "Password",
-    placeholder: "••••••••",
-  },
-];
-
-const initialValues = {
-  email: "",
-  password: "",
-};
-
-const validationSchema = Yup.object({
-  email: Yup.string().email().required().label("Email"),
-  password: Yup.string().min(7).max(20).required().label("Password"),
-});
+import { LoginForm } from "@/features/auth/ui/LoginFom";
 
 export default function LoginPage() {
-  const router = useRouter();
-
-  const handleLoginSubmit = async (
-    values: typeof initialValues,
-    actions: FormikHelpers<typeof initialValues>,
-  ) => {
-    try {
-      const res = await axios.post("/api/auth/login", values);
-      if (res.status === 200) {
-        // В ідеалі тут варто показати сповіщення (toast) про успіх
-        router.push("/"); // Використовуємо router для навігації без перезавантаження
-      }
-    } catch (error) {
-      if (isAxiosError<ApiError>(error)) {
-        const errorMessage =
-          error.response?.data.message || "Помилка авторизації";
-        // Замість console.log, показуємо помилку користувачу
-        // наприклад, через alert або toast-сповіщення
-        alert(errorMessage);
-        console.error(error.response?.data);
-      }
-    } finally {
-      // Незалежно від результату, повідомляємо Formik, що відправка завершена
-      actions.setSubmitting(false);
-    }
-  };
-
   return (
     <main className="flex min-h-screen">
       <div className="hidden lg:flex lg:w-[44%] bg-card border-r border-border flex-col justify-between p-10 relative overflow-hidden">
@@ -166,22 +115,7 @@ export default function LoginPage() {
           </p>
         </div>
       </div>
-      <div className="m-auto my-auto flex grow justify-center items-center">
-        <DynamicForm
-          initialValues={initialValues}
-          fields={fields}
-          validationSchema={validationSchema}
-          onSubmit={handleLoginSubmit}
-          submitLabel="Вхід"
-        >
-          <div className="mb-3">
-            <h1 className="text-2xl text-foreground mb-1.5">Вхід</h1>
-            <p className="text-sm text-muted-foreground mb-6">
-              Введіть дані вашого облікового запису
-            </p>
-          </div>
-        </DynamicForm>
-      </div>
+      <LoginForm />
     </main>
   );
 }
