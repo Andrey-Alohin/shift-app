@@ -57,4 +57,10 @@ export interface Shift {
   createdBy: string | User;
 }
 
-export type WeeklySchedule = Shift[];
+export type WeeklySchedule = {
+  shifts: Shift[];
+  weekBounds: {
+    start: string;
+    end: string;
+  };
+};

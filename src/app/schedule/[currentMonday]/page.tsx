@@ -5,7 +5,9 @@ import { WeekView } from "@/features/Week/types";
 import { setDate } from "date-fns";
 import { redirect } from "next/navigation";
 import { formatToKiyvDate } from "@/shared/lib/date";
-import { console } from "inspector";
+import { getWeeklySchedule } from "@/shared/api/schedule";
+import { cookies } from "next/headers";
+import { ScheduleViewer } from "@/widgets/schedule-viewer/ui/ScheduleViewer";
 
 interface PageProps {
   params: Promise<{ currentMonday: string }>;
@@ -19,19 +21,21 @@ export default async function Schedule({ params, searchParams }: PageProps) {
   if (day.getDay() !== 1) {
     const days = day.getDay() === 0 ? 6 : day.getDay() - 1;
     console.log(day, days);
-    const monday = formatToKiyvDate(setDate(day, day.getDate() - days));
+    const trueDay = setDate(day, day.getDate() - days);
+    const monday = formatToKiyvDate(trueDay.toISOString());
 
     return redirect(`/schedule/${monday}`);
   }
   const { view = WeekView.Week, date, mode } = await searchParams;
   const activeDay = date || mondayStr;
-  console.log(new Date(mondayStr).toUTCString());
-  const shiftsObj = normalizeAndGroupWeekScheudle(mockNormalizeArguments);
-  console.log(shiftsObj);
   return (
     <main>
       <div className=" container m-auto">
-        <Week weekSchedule={shiftsObj} view={view} day={activeDay} />
+        <ScheduleViewer
+          mondayStr={mondayStr}
+          view={view}
+          activeDay={activeDay}
+        />
       </div>
     </main>
   );

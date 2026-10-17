@@ -1,11 +1,11 @@
-import { Group, ShiftType, User, WeeklySchedule } from "../api";
+import { Group, Shift, ShiftType, User } from "../api";
 import { canManageShift } from "../lib/range/persmissions";
 
 interface NormalizeArguments {
-  schedule: WeeklySchedule;
+  schedule: Shift[];
   weekBounds: {
-    startAt: string;
-    endAt: string;
+    start: string;
+    end: string;
   };
   currentUser: User;
 }
@@ -89,7 +89,7 @@ export default function normalizeAndGroupWeekSchedule({
 }: NormalizeArguments) {
   const currentGroup = currentUser.groupId as Group;
   const normalizedWeekSchedule: Record<string, NormalizedDay> =
-    generateSkeletonWeekSchedule(weekBounds.startAt, weekBounds.endAt);
+    generateSkeletonWeekSchedule(weekBounds.start, weekBounds.end);
 
   schedule.forEach((rawShift) => {
     const userObj = rawShift.user as User;

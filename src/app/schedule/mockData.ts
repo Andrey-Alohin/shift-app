@@ -1,4 +1,11 @@
-import { Group, Role, ShiftType, User, WeeklySchedule } from "@/shared/api";
+import {
+  Group,
+  Role,
+  Shift,
+  ShiftType,
+  User,
+  WeeklySchedule,
+} from "@/shared/api";
 const DEFAULT_WEEKLY_SCHEDULE = [
   { day: 1, isOpen: true, openTime: "08:00", closeTime: "21:00" },
   { day: 2, isOpen: true, openTime: "08:00", closeTime: "21:00" },
@@ -56,12 +63,12 @@ export const mockGuestUser: User = {
 
 // 3. Межі тижня (Понеділок - Неділя)
 export const mockWeekBounds = {
-  startAt: "2026-07-20T00:00:00.000Z", // Понеділок
-  endAt: "2026-07-26T23:59:59.000Z", // Неділя
+  start: "2026-07-20T00:00:00.000Z", // Понеділок
+  end: "2026-07-26T23:59:59.000Z", // Неділя
 };
 
 // 4. Список сирих змін для тестування
-export const mockRawSchedule: WeeklySchedule = [
+export const mockRawSchedule: Shift[] = [
   // --- ПОНЕДІЛОК (2026-07-20) ---
   // Сценарій: Перевірка сортування isMe (твоя зміна о 10:00 має стати вище ніж зміна о 08:00)
   {
