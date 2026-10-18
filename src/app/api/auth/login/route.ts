@@ -1,26 +1,13 @@
-import { ApiResponse, ApiError } from "@/shared/api";
+import { ApiResponse, ApiError, api } from "@/shared/api";
 import axios, { isAxiosError } from "axios";
 import { NextResponse } from "next/server";
-
-export interface LoginResponse {
-  accessToken: string;
-}
-
-export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-type LoginR = ApiResponse<LoginResponse>;
 
 export async function POST(request: Request) {
   try {
     const values = await request.json();
 
-    const { data } = await api.post<LoginR>("/auth/login", values);
-    const { accessToken } = data.data;
+    const res = await api.auth.login(values);
+    const { accessToken } = res;
 
     console.log(accessToken);
 

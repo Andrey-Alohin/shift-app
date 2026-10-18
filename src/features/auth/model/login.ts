@@ -1,4 +1,5 @@
 import { api } from "@/shared/api";
+import axios from "axios";
 import { FormikHelpers } from "formik";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { NextRouter } from "next/router";
@@ -35,8 +36,9 @@ export const useLoginModel = (router: AppRouterInstance) => {
     actions: FormikHelpers<typeof initialValues>,
   ) => {
     try {
-      const res = await api.auth.login(values);
+      await axios.post("/api/auth/login", values);
       router.push("/");
+      router.refresh();
     } catch (err) {
       console.log("Failed to login: ", err);
     } finally {
