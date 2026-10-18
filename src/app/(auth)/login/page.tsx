@@ -1,10 +1,4 @@
 "use client";
-import * as Yup from "yup";
-import DynamicForm from "@/components/Form/Form";
-import { FormikHelpers } from "formik";
-import axios, { isAxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import { ApiError } from "next/dist/server/api-utils";
 import { LoginForm } from "@/features/auth/ui/LoginFom";
 
 export default function LoginPage() {
