@@ -1,6 +1,7 @@
 import { ApiResponse, ApiError, api } from "@/shared/api";
 import axios, { isAxiosError } from "axios";
 import { NextResponse } from "next/server";
+import { toast } from "sonner";
 
 export async function POST(request: Request) {
   try {
@@ -12,7 +13,6 @@ export async function POST(request: Request) {
     console.log(accessToken);
 
     const nextResponse = NextResponse.json({ message: "Успішно увійшли!" });
-
     nextResponse.cookies.set("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
