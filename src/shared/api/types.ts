@@ -31,7 +31,9 @@ export interface Group {
 
 export interface User {
   _id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  middleName: string;
   email: string;
   role: Role;
   avatarUrl?: string;

@@ -10,7 +10,7 @@ export default async function Home() {
   if (accessToken) {
     try {
       const user = await api.users.getMe(accessToken);
-      userName = user.name;
+      userName = user.firstName;
       console.log(user);
     } catch (error) {
       console.error("Failed to fetch user:", error);
