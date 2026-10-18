@@ -1,12 +1,7 @@
-import Week from "@/features/Week/Week";
-import normalizeAndGroupWeekScheudle from "@/shared/utils/normalizeAndGroupWeekScheudle";
-import { mockNormalizeArguments } from "../mockData";
 import { WeekView } from "@/features/Week/types";
 import { setDate } from "date-fns";
 import { redirect } from "next/navigation";
 import { formatToKiyvDate } from "@/shared/lib/date";
-import { getWeeklySchedule } from "@/shared/api/schedule";
-import { cookies } from "next/headers";
 import { ScheduleViewer } from "@/widgets/schedule-viewer/ui/ScheduleViewer";
 
 interface PageProps {
