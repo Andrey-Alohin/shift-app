@@ -1,6 +1,7 @@
 import { NormalizedWeekSchedule } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import DayCard from "../DayCard/DayCard";
 import { WeekView } from "./types";
+import DayTabs from "./DayTabs";
 
 interface WeekProps {
   weekSchedule: NormalizedWeekSchedule;
@@ -9,7 +10,6 @@ interface WeekProps {
 }
 
 export default function Week({ weekSchedule, view, day }: WeekProps) {
-  console.log(weekSchedule[day], day);
   return (
     <>
       {(view === WeekView.Week && (
@@ -20,6 +20,7 @@ export default function Week({ weekSchedule, view, day }: WeekProps) {
         </ul>
       )) || (
         <>
+          <DayTabs schedule={weekSchedule} activeDay={day} />
           <DayCard day={weekSchedule[day]} />
         </>
       )}
