@@ -1,8 +1,12 @@
 import { WeekView } from "@/features/Week/types";
-import { setDate } from "date-fns";
 import { redirect } from "next/navigation";
-import { formatToKiyvDate } from "@/shared/lib/date";
+import {
+  formatToKiyvDate,
+  getMondayFromDay,
+  isDayInWeeK,
+} from "@/shared/lib/date";
 import { ScheduleViewer } from "@/widgets/schedule-viewer/ui/ScheduleViewer";
+import { isValid } from "date-fns";
 
 interface PageProps {
   params: Promise<{ currentMonday: string }>;
@@ -12,17 +16,21 @@ interface PageProps {
 export default async function Schedule({ params, searchParams }: PageProps) {
   const { currentMonday: mondayStr } = await params;
   const day = new Date(mondayStr);
+  console.log(day);
 
   if (day.getDay() !== 1) {
-    const days = day.getDay() === 0 ? 6 : day.getDay() - 1;
-    console.log(day, days);
-    const trueDay = setDate(day, day.getDate() - days);
-    const monday = formatToKiyvDate(trueDay.toISOString());
+    const monday = formatToKiyvDate(getMondayFromDay(day));
 
     return redirect(`/schedule/${monday}`);
   }
   const { view = WeekView.Week, date, mode } = await searchParams;
-  const activeDay = date || mondayStr;
+  const activeDay =
+    view === WeekView.Day
+      ? date && isDayInWeeK(date, mondayStr)
+        ? formatToKiyvDate(date)
+        : isDayInWeeK(new Date().toISOString(), mondayStr) &&
+          formatToKiyvDate(new Date()) : redirect(`/schedule/${date}?day=${date}`)
+      : formatToKiyvDate(new Date()) || mondayStr;
   return (
     <main>
       <div className=" container m-auto">

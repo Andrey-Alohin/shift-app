@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const token = request.cookies.get("accessToken")?.value;
 
   const isSheduleRoute = request.nextUrl.pathname.startsWith("/schedule");
