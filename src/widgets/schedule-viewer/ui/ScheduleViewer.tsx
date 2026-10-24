@@ -4,7 +4,7 @@ import { WeekView } from "@/features/Week/types";
 import Week from "@/features/Week/Week";
 import normalizeAndGroupWeekSchedule from "@/shared/utils/normalizeAndGroupWeekScheudle";
 
-interface ShceduleViewerProps {
+interface ScheduleViewerProps {
   mondayStr: string;
   view: WeekView;
   activeDay: string;
@@ -14,7 +14,7 @@ export async function ScheduleViewer({
   mondayStr,
   view,
   activeDay,
-}: ShceduleViewerProps) {
+}: ScheduleViewerProps) {
   const currentUser = await getServerUser();
   const { shifts, weekBounds } = await getServerSchedule(mondayStr);
   const schedule = normalizeAndGroupWeekSchedule({

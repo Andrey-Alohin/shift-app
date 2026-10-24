@@ -5,7 +5,6 @@ import {
   parseISO,
   startOfWeek,
 } from "date-fns";
-import { is } from "date-fns/locale";
 
 export const getMondayFromDay = (day: string | Date): Date => {
   const date = typeof day === "string" ? parseISO(day) : day;

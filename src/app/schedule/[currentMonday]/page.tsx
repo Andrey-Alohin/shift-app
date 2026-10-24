@@ -6,7 +6,7 @@ import {
   isDayInWeek,
 } from "@/shared/lib/date";
 import { ScheduleViewer } from "@/widgets/schedule-viewer/ui/ScheduleViewer";
-import { isValid } from "date-fns";
+import { isValid, parseISO } from "date-fns";
 
 interface PageProps {
   params: Promise<{ currentMonday: string }>;
@@ -15,8 +15,7 @@ interface PageProps {
 
 export default async function Schedule({ params, searchParams }: PageProps) {
   const { currentMonday: mondayStr } = await params;
-  const day = new Date(mondayStr);
-  console.log(day);
+  const day = parseISO(mondayStr);
 
   if (day.getDay() !== 1) {
     const monday = formatToKiyvDate(getMondayFromDay(day));
@@ -24,16 +23,15 @@ export default async function Schedule({ params, searchParams }: PageProps) {
     return redirect(`/schedule/${monday}`);
   }
   const { view = WeekView.Week, date, mode } = await searchParams;
-  const rawDay =
-    date && isValid(new Date(date)) ? new Date(date).toISOString() : mondayStr;
+  const rawDay = date && isValid(new Date(date)) ? parseISO(date) : day;
   const today = new Date();
   let activeDay;
-  if (isDayInWeek(rawDay, mondayStr)) {
+  if (isDayInWeek(formatToKiyvDate(rawDay), mondayStr)) {
     activeDay = formatToKiyvDate(rawDay);
   } else if (isDayInWeek(today.toISOString(), mondayStr)) {
     activeDay = formatToKiyvDate(today.toISOString());
   } else {
-    activeDay = rawDay;
+    activeDay = formatToKiyvDate(rawDay);
   }
   return (
     <main>
