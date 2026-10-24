@@ -15,7 +15,7 @@ export const getMondayFromDay = (day: string | Date): Date => {
   return startOfWeek(targetDate, { weekStartsOn: 1 });
 };
 
-export const isDayInWeeK = (dayStr: string, mondayStr: string): boolean => {
+export const isDayInWeek = (dayStr: string, mondayStr: string): boolean => {
   try {
     const monday = parseISO(mondayStr);
     const targetDate = parseISO(dayStr);

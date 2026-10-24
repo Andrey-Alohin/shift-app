@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import {
   formatToKiyvDate,
   getMondayFromDay,
-  isDayInWeeK,
+  isDayInWeek,
 } from "@/shared/lib/date";
 import { ScheduleViewer } from "@/widgets/schedule-viewer/ui/ScheduleViewer";
 import { isValid } from "date-fns";
@@ -24,13 +24,17 @@ export default async function Schedule({ params, searchParams }: PageProps) {
     return redirect(`/schedule/${monday}`);
   }
   const { view = WeekView.Week, date, mode } = await searchParams;
-  const activeDay =
-    view === WeekView.Day
-      ? date && isDayInWeeK(date, mondayStr)
-        ? formatToKiyvDate(date)
-        : isDayInWeeK(new Date().toISOString(), mondayStr) &&
-          formatToKiyvDate(new Date()) : redirect(`/schedule/${date}?day=${date}`)
-      : formatToKiyvDate(new Date()) || mondayStr;
+  const rawDay =
+    date && isValid(new Date(date)) ? new Date(date).toISOString() : mondayStr;
+  const today = new Date();
+  let activeDay;
+  if (isDayInWeek(rawDay, mondayStr)) {
+    activeDay = formatToKiyvDate(rawDay);
+  } else if (isDayInWeek(today.toISOString(), mondayStr)) {
+    activeDay = formatToKiyvDate(today.toISOString());
+  } else {
+    activeDay = rawDay;
+  }
   return (
     <main>
       <div className=" container m-auto">

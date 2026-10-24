@@ -17,6 +17,7 @@ const formatDayHeader = (uiDate: string) => {
 };
 
 export default function DayCard({ day }: DayCardProps) {
+  console.log(day);
   const { isToday, uiDate, shifts } = day;
   const { topList, bottomList } = splitShiftByList(shifts);
   return (

@@ -9,6 +9,7 @@ interface WeekProps {
 }
 
 export default function Week({ weekSchedule, view, day }: WeekProps) {
+  console.log(weekSchedule[day], day);
   return (
     <>
       {(view === WeekView.Week && (
