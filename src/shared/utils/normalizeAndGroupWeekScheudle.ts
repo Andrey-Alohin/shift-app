@@ -1,8 +1,12 @@
+import {
+  MergedShifts,
+  Operation,
+} from "@/widgets/schedule-editor/model/schedule-merge";
 import { Group, Shift, ShiftType, User } from "../api";
 import { canManageShift } from "../lib/range/persmissions";
 
 interface NormalizeArguments {
-  schedule: Shift[];
+  schedule: Shift[] | MergedShifts[];
   weekBounds: {
     start: string;
     end: string;
@@ -26,6 +30,7 @@ export interface NormalizedShift {
   startAt: string;
   endAt: string;
   relatedGroup?: Group;
+  status?: Operation;
 }
 
 export interface NormalizedDay {
