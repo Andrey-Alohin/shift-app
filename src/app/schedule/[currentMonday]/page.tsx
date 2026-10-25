@@ -10,7 +10,7 @@ import { isValid, parseISO } from "date-fns";
 
 interface PageProps {
   params: Promise<{ currentMonday: string }>;
-  searchParams: Promise<{ view?: WeekView; date?: string; mode?: string }>;
+  searchParams: Promise<{ view?: WeekView; mode?: string }>;
 }
 
 export default async function Schedule({ params, searchParams }: PageProps) {
@@ -22,16 +22,13 @@ export default async function Schedule({ params, searchParams }: PageProps) {
 
     return redirect(`/schedule/${monday}`);
   }
-  const { view = WeekView.Week, date, mode } = await searchParams;
-  const rawDay = date && isValid(new Date(date)) ? parseISO(date) : day;
-  const today = new Date();
+  const { view = WeekView.Week, mode = "view" } = await searchParams;
+  const todayStr = formatToKiyvDate(new Date());
   let activeDay;
-  if (isDayInWeek(formatToKiyvDate(rawDay), mondayStr)) {
-    activeDay = formatToKiyvDate(rawDay);
-  } else if (isDayInWeek(today.toISOString(), mondayStr)) {
-    activeDay = formatToKiyvDate(today.toISOString());
+  if (isDayInWeek(todayStr, mondayStr)) {
+    activeDay = todayStr;
   } else {
-    activeDay = formatToKiyvDate(rawDay);
+    activeDay = formatToKiyvDate(mondayStr);
   }
   return (
     <main>
