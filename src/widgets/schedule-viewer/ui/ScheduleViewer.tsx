@@ -23,8 +23,8 @@ export async function ScheduleViewer({
     currentUser,
   });
   return (
-    <div>
+    <section>
       <Week weekSchedule={schedule} view={view} day={activeDay} />
-    </div>
+    </section>
   );
 }

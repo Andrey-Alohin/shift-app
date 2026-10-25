@@ -21,7 +21,6 @@ export default function Week({ weekSchedule, view, day }: WeekProps) {
       )) || (
         <>
           <DayTabs schedule={weekSchedule} activeDay={day} />
-          <DayCard day={weekSchedule[day]} />
         </>
       )}
     </>

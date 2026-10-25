@@ -12,8 +12,17 @@ const formatterToKiyvTime = new Intl.DateTimeFormat("en-CA", {
   hour12: false,
 });
 
+const formatterToKiyvDateShort = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Europe/Kyiv",
+  day: "2-digit",
+  month: "2-digit",
+});
+
 export const formatToKiyvDate = (isoString: Date | string) =>
   formatterToKiyvDate.format(new Date(isoString));
 
 export const formatToKiyvTime = (isoString: Date | string) =>
   formatterToKiyvTime.format(new Date(isoString));
+
+export const formatToKiyvDateShort = (isoString: Date | string) =>
+  formatterToKiyvDateShort.format(new Date(isoString));

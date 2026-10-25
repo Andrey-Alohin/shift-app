@@ -6,7 +6,7 @@ import {
   isDayInWeek,
 } from "@/shared/lib/date";
 import { ScheduleViewer } from "@/widgets/schedule-viewer/ui/ScheduleViewer";
-import { isValid, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 
 interface PageProps {
   params: Promise<{ currentMonday: string }>;
@@ -32,13 +32,7 @@ export default async function Schedule({ params, searchParams }: PageProps) {
   }
   return (
     <main>
-      <div className=" container m-auto">
-        <ScheduleViewer
-          mondayStr={mondayStr}
-          view={view}
-          activeDay={activeDay}
-        />
-      </div>
+      <ScheduleViewer mondayStr={mondayStr} view={view} activeDay={activeDay} />
     </main>
   );
 }
