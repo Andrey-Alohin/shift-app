@@ -26,7 +26,7 @@ interface DeleteShiftPayload {
   version: number;
 }
 
-type OperationShift =
+export type OperationShift =
   | {
       operation: Operation.Create;
       shift: CreateShiftPayload;
