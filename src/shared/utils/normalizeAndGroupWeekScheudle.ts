@@ -97,9 +97,9 @@ export default function normalizeAndGroupWeekSchedule({
     generateSkeletonWeekSchedule(weekBounds.start, weekBounds.end);
 
   schedule.forEach((rawShift) => {
-    const userObj = rawShift.user as User;
-    const originGroup = rawShift.originGroupId as Group;
-    const actualGroup = rawShift.actualGroupId as Group;
+    const userObj = rawShift.user;
+    const originGroup = rawShift.originGroupId;
+    const actualGroup = rawShift.actualGroupId;
 
     const isOutstaffIn =
       currentGroup._id === actualGroup._id &&
@@ -133,6 +133,7 @@ export default function normalizeAndGroupWeekSchedule({
       ...((isOutstaffIn || isOutstaffOut) && {
         relatedGroup: isOutstaffIn ? originGroup : actualGroup,
       }),
+      ...(rawShift.status && { status: rawShift.status }),
     };
 
     normalizedShift.canEdit = canManageShift(currentUser, normalizedShift);

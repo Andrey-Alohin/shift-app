@@ -4,6 +4,7 @@ import { ShiftStatusBadge } from "./ShiftStatusBadge";
 import { ShiftRangeBar } from "./ShiftRangeBar";
 import Avatar from "@/shared/ui/Avatar";
 import Link from "next/link";
+import { getShiftCardStyles } from "@/shared/lib/styles/shift-styles";
 
 interface ShiftCardProps {
   shift: NormalizedShift;
@@ -15,21 +16,13 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
     endAt,
     user,
     type,
-    isMe,
     timelineBounds,
     isOutstaffIn,
     isOutstaffOut,
     relatedGroup,
-    status,
   } = shift;
   return (
-    <li
-      className={`flex flex-row flex-wrap items-center gap-3 px-2 py-1.5 rounded-xl border transition-all min-w-0 overflow-hidden ${
-        isMe
-          ? "border-primary/30 bg-primary/6"
-          : "border-border bg-card hover:border-white/12"
-      }`}
-    >
+    <li className={getShiftCardStyles(shift)}>
       <div className="flex flex-wrap relative items-center gap-2 truncate">
         <Avatar
           src={user.avatarUrl}
@@ -47,7 +40,7 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
         />
         {shift.canEdit && (
           <>
-            <Link href={`/schedule?date=1&editShiftId=${shift._id}`}>Edit</Link>
+            <Link href={`/schedule?mode=edit`}>Edit</Link>
           </>
         )}
       </div>

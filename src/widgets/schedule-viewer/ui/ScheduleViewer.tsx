@@ -16,16 +16,17 @@ export async function ScheduleViewer({
   view,
   activeDay,
 }: ScheduleViewerProps) {
-  const currentUser = await getServerUser();
+  // const currentUser = await getServerUser();
   // const { shifts, weekBounds } = await getServerSchedule(mondayStr);
   const schedule = normalizeAndGroupWeekSchedule({
     schedule: mockNormalizeArguments.schedule,
     weekBounds: mockNormalizeArguments.weekBounds,
     currentUser: mockNormalizeArguments.currentUser,
   });
+
   return (
     <section>
-      <Week weekSchedule={schedule} view={view} day={activeDay} />
+      <Week weekSchedule={schedule} view={view} day={"2026-07-22"} />
     </section>
   );
 }

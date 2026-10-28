@@ -161,6 +161,7 @@ export const mockRawSchedule: Shift[] = [
     actualGroupId: mockMainGroup,
     startAt: "2026-07-23T09:00:00.000Z",
     endAt: "2026-07-23T18:00:00.000Z",
+    status: Operation.Create,
   },
 
   // --- П'ЯТНИЦЯ (2026-07-24) ---
