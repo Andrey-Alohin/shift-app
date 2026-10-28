@@ -20,6 +20,7 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
     isOutstaffIn,
     isOutstaffOut,
     relatedGroup,
+    status,
   } = shift;
   return (
     <li
@@ -32,11 +33,11 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
       <div className="flex flex-wrap relative items-center gap-2 truncate">
         <Avatar
           src={user.avatarUrl}
-          name={user.name}
+          name={user.lastName + " " + user.firstName}
           className="size-6 text-xs shrink-0 text-stone-800"
         />
         <p className="text-sm font-medium text-foreground truncate">
-          {user.name}
+          {user.lastName}
         </p>
         <ShiftStatusBadge
           type={type}

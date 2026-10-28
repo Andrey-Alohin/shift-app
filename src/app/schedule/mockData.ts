@@ -6,6 +6,7 @@ import {
   User,
   WeeklySchedule,
 } from "@/shared/api";
+import { Operation } from "@/widgets/schedule-editor/model/schedule-merge";
 const DEFAULT_WEEKLY_SCHEDULE = [
   { day: 1, isOpen: true, openTime: "08:00", closeTime: "21:00" },
   { day: 2, isOpen: true, openTime: "08:00", closeTime: "21:00" },
@@ -172,6 +173,7 @@ export const mockRawSchedule: Shift[] = [
     actualGroupId: mockMainGroup,
     startAt: "2026-07-24T08:00:00.000Z",
     endAt: "2026-07-24T17:00:00.000Z",
+    status: Operation.Create,
   },
   {
     _id: "shift-502",
@@ -181,6 +183,7 @@ export const mockRawSchedule: Shift[] = [
     actualGroupId: mockMainGroup,
     startAt: "2026-07-24T09:00:00.000Z",
     endAt: "2026-07-24T18:00:00.000Z",
+    status: Operation.Delete,
   },
 
   // --- СУБОТА (2026-07-25) ---
@@ -193,6 +196,7 @@ export const mockRawSchedule: Shift[] = [
     actualGroupId: mockMainGroup,
     startAt: "2026-07-25T10:00:00.000Z",
     endAt: "2026-07-25T16:00:00.000Z",
+    status: Operation.Update,
   },
 
   // --- НЕДІЛЯ (2026-07-26) ---

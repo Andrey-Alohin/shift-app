@@ -49,15 +49,25 @@ export enum ShiftType {
 
 export interface Shift {
   _id: string;
-  user: string | User;
-  actualGroupId: string | Group;
-  originGroupId: string | Group;
+  user: User;
+  actualGroupId: Group;
+  originGroupId: Group;
   type: ShiftType;
   startAt: string;
   endAt: string;
   version: number;
-  createdBy: string | User;
+  createdBy: User;
 }
+
+export type ShiftApiPayload = Omit<
+  Shift,
+  "user" | "actualGroupId" | "originGroupId" | "originGroupId" | "version"
+> & {
+  user: string;
+  actualGroupId: string;
+  originGroupId: string;
+  version?: number;
+};
 
 export type WeeklySchedule = {
   shifts: Shift[];
