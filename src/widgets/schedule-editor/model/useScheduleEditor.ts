@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { Operation, OperationShift, scheduleMerge } from "./schedule-merge";
-import normalizeAndGroupWeekSchedule from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import normalizeAndGroupWeekSchedule, {
+  NormalizedShift,
+} from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import { Group, Shift, ShiftType, User } from "@/shared/api";
 import { set } from "date-fns";
 
@@ -23,10 +25,19 @@ interface CreateClipShift {
   endAt: string | null;
 }
 
-type ClipShift = {
-  operation: Operation.Create;
-  shift: CreateClipShift;
-};
+type ClipShift =
+  | {
+      operation: Operation.Create;
+      shift: CreateClipShift;
+    }
+  | {
+      operation: Operation.Update;
+      shift: NormalizedShift;
+    }
+  | {
+      operation: Operation.Delete;
+      shift: { id: string; version?: number };
+    };
 export function useScheduleEditor({
   rawShifts,
   weekBounds,
@@ -58,7 +69,21 @@ export function useScheduleEditor({
     setIsFormOpen(true);
   };
 
-  const handleSetOperationShifts = (operation: OperationShift) => {};
+  const handleSetUpdateOperation = (shift: NormalizedShift) => {
+    setClipShift({ operation: Operation.Update, shift });
+    setIsFormOpen(true);
+  };
+
+  const handleSetDeleteOperation = ({
+    id,
+    version,
+  }: {
+    id: string;
+    version?: number;
+  }) => {
+    setClipShift({ operation: Operation.Delete, shift: { id, version } });
+    setIsFormOpen(true);
+  };
 
   const normalizedShifts = normalizeAndGroupWeekSchedule({
     schedule: mergedShifts,
@@ -66,5 +91,14 @@ export function useScheduleEditor({
     currentUser,
   });
 
-  return;
+  return {
+    uiShifts: normalizedShifts,
+    clipShift,
+    isFormOpen,
+    setIsFormOpen,
+    setOperationShifts,
+    handleSetCreateOperation,
+    handleSetUpdateOperation,
+    handleSetDeleteOperation,
+  };
 }
