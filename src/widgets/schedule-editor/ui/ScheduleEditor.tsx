@@ -28,6 +28,7 @@ export function ScheduleEditor({
   console.log(backendData);
   const {
     uiShifts,
+    clipShift,
     isFormOpen,
     handleSetCreateOperation,
     handleSetUpdateOperation,
@@ -40,6 +41,7 @@ export function ScheduleEditor({
   return (
     <div>
       <Week weekSchedule={uiShifts} view={view} day={activeDay} />
+      {isFormOpen && }
     </div>
   );
 }
