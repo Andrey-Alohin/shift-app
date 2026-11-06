@@ -7,6 +7,9 @@ import {
 } from "@/shared/lib/date";
 import { ScheduleViewer } from "@/widgets/schedule-viewer/ui/ScheduleViewer";
 import { parseISO } from "date-fns";
+import { getServerUser } from "@/entities/user/api/getServerUser";
+import { getServerSchedule } from "@/entities/shift/api/getServerSchedule";
+import { ScheduleEditor } from "@/widgets/schedule-editor/ui/ScheduleEditor";
 
 interface PageProps {
   params: Promise<{ currentMonday: string }>;
@@ -30,9 +33,29 @@ export default async function Schedule({ params, searchParams }: PageProps) {
   } else {
     activeDay = formatToKiyvDate(mondayStr);
   }
+  const [currentUser, backendData] = await Promise.all([
+    getServerUser(),
+    getServerSchedule(mondayStr),
+  ]);
+  const isEditMode = mode === "edit";
   return (
     <main>
-      <ScheduleViewer mondayStr={mondayStr} view={view} activeDay={activeDay} />
+      {!isEditMode && (
+        <ScheduleViewer
+          mondayStr={mondayStr}
+          view={view}
+          activeDay={activeDay}
+        />
+      )}
+      {isEditMode && (
+        <ScheduleEditor
+          mondayStr={mondayStr}
+          view={view}
+          activeDay={activeDay}
+          currentUser={currentUser}
+          backendData={backendData}
+        />
+      )}
     </main>
   );
 }
