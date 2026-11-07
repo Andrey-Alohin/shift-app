@@ -2,13 +2,13 @@ import { useField } from "formik";
 import { FormFieldConfig } from "./Form/FormFieldConfig";
 import Input from "@/shared/ui/Input";
 
-interface FormFieldAdapterProps<Tname extends string> {
-  fieldConfig: FormFieldConfig<Tname>;
+interface FormFieldAdapterProps<TValues extends Record<string, unknown>> {
+  fieldConfig: FormFieldConfig<TValues>;
 }
 
-export default function FormFieldAdapter<TName extends string>({
-  fieldConfig,
-}: FormFieldAdapterProps<TName>) {
+export default function FormFieldAdapter<
+  TAVlues extends Record<string, unknown>,
+>({ fieldConfig }: FormFieldAdapterProps<TAVlues>) {
   const [field, meta] = useField(fieldConfig.name);
   const hasError = meta.touched && Boolean(meta.error);
 
@@ -42,7 +42,7 @@ export default function FormFieldAdapter<TName extends string>({
                   Оберіть зі списку
                 </option>
                 {fieldConfig.options.map((opt) => (
-                  <option key={String(opt.value)} value={opt.value}>
+                  <option key={String(opt.value)} value={String(opt.value)}>
                     {opt.label}
                   </option>
                 ))}

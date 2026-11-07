@@ -1,10 +1,10 @@
 interface BaseField<TFormName extends string> {
   name: TFormName;
   label: string;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
-export type FormFieldConfig<TValues extends Record<string, any>> = {
+export type FormFieldConfig<TValues extends Record<string, unknown>> = {
   [K in keyof TValues]:
     | (BaseField<K & string> & {
         type: "input";

@@ -1,27 +1,19 @@
 import { Formik, Form, FormikHelpers } from "formik";
 import type { AnyObjectSchema } from "yup";
-import Input from "@/shared/ui/Input";
-import { InputHTMLAttributes, ReactNode } from "react";
 import { FormFieldConfig } from "./FormFieldConfig";
 import FormFieldAdapter from "../FormFieldAdapter";
+import { ReactNode } from "react";
 
-interface IField extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
-  label: string;
-  type?: string;
-  placeholder?: string;
-}
-
-interface IDynamicFormProps<TValues extends Record<string, any>> {
+interface IDynamicFormProps<TValues extends Record<string, unknown>> {
   initialValues: TValues;
-  fields: FormFieldConfig<keyof TValues & string>[];
+  fields: FormFieldConfig<TValues>[];
   validationSchema: AnyObjectSchema;
   onSubmit: (values: TValues, actions: FormikHelpers<TValues>) => void;
   submitLabel?: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
-export default function DynamicForm<TValues extends Record<string, string>>(
+export default function DynamicForm<TValues extends Record<string, unknown>>(
   props: IDynamicFormProps<TValues>,
 ) {
   const {

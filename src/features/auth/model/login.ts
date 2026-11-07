@@ -1,6 +1,6 @@
 import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
 import axios from "axios";
-import { FieldConfig, FormikHelpers } from "formik";
+import { FormikHelpers } from "formik";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "sonner";
 import * as Yup from "yup";
@@ -9,7 +9,7 @@ const initialValues = {
   password: "",
 };
 
-const fields: FormFieldConfig<keyof typeof initialValues>[] = [
+const fields: FormFieldConfig<typeof initialValues>[] = [
   {
     name: "email",
     type: "input",
