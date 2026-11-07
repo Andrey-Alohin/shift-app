@@ -4,8 +4,9 @@ import { WeekView } from "@/features/Week/types";
 import { useScheduleEditor } from "../model/useScheduleEditor";
 import { getServerUser } from "@/entities/user/api/getServerUser";
 import { getServerSchedule } from "@/entities/shift/api/getServerSchedule";
-import { Shift, User } from "@/shared/api";
+import { Group, Role, Shift, User } from "@/shared/api";
 import Week from "@/features/Week/Week";
+import ShiftCreatePage from "@/features/shiftForm/ui/ShiftForm";
 
 interface ScheduleEditorProps {
   mondayStr: string;
@@ -25,7 +26,21 @@ export function ScheduleEditor({
   currentUser,
   backendData,
 }: ScheduleEditorProps) {
-  console.log(backendData);
+  const users: User[] = [
+    {
+      _id: "1",
+      firstName: "Kavin",
+      lastName: "Laster",
+      middleName: "Monster",
+      email: "sss@d",
+      role: Role.User,
+      groupId: "sac",
+    },
+  ];
+  const groups: Group[] = [
+    { _id: "2", name: "Відділення №3", managerId: "312", schedule: [] },
+  ];
+
   const {
     uiShifts,
     clipShift,
@@ -41,7 +56,10 @@ export function ScheduleEditor({
   return (
     <div>
       <Week weekSchedule={uiShifts} view={view} day={activeDay} />
-      {isFormOpen && }
+      <button onClick={() => handleSetCreateOperation(currentUser)}>
+        Створити нову зміну
+      </button>
+      {isFormOpen && <ShiftCreatePage users={users} groups={groups} />}
     </div>
   );
 }
