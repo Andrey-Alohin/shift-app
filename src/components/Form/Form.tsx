@@ -2,6 +2,8 @@ import { Formik, Form, FormikHelpers } from "formik";
 import type { AnyObjectSchema } from "yup";
 import Input from "@/shared/ui/Input";
 import { InputHTMLAttributes, ReactNode } from "react";
+import { FormFieldConfig } from "./FormFieldConfig";
+import FormFieldAdapter from "../FormFieldAdapter";
 
 interface IField extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -10,17 +12,17 @@ interface IField extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
 }
 
-interface IDynamicFormProps<TinitValues> {
-  initialValues: TinitValues;
-  fields: IField[];
+interface IDynamicFormProps<TValues extends Record<string, any>> {
+  initialValues: TValues;
+  fields: FormFieldConfig<keyof TValues & string>[];
   validationSchema: AnyObjectSchema;
-  onSubmit: (values: TinitValues, actions: FormikHelpers<TinitValues>) => void;
+  onSubmit: (values: TValues, actions: FormikHelpers<TValues>) => void;
   submitLabel?: string;
   children: ReactNode;
 }
 
-export default function DynamicForm<TinitValues extends Record<string, string>>(
-  props: IDynamicFormProps<TinitValues>,
+export default function DynamicForm<TValues extends Record<string, string>>(
+  props: IDynamicFormProps<TValues>,
 ) {
   const {
     initialValues,
@@ -39,34 +41,13 @@ export default function DynamicForm<TinitValues extends Record<string, string>>(
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({ handleChange, values, errors, touched, handleBlur }) => (
+        {() => (
           <Form className="flex flex-col gap-1.5">
-            {fields.map(({ name, label, type, placeholder }, i) => (
-              <div key={i} className="flex flex-col space-y-1.5">
-                <label
-                  className="text-xs font-semibold text-muted-foreground tracking-wide uppercase"
-                  htmlFor={name + i}
-                >
-                  {label}
-                </label>
-                <Input
-                  id={name + i}
-                  key={i}
-                  name={name}
-                  type={type}
-                  aria-label={label}
-                  onChange={handleChange}
-                  value={values[name]}
-                  onBlur={handleBlur}
-                  placeholder={placeholder ?? label}
-                  className="mb-0.5"
-                />
-                {touched[name] && typeof errors[name] === "string" && (
-                  <div className="mt-1 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
-                    {errors[name]}
-                  </div>
-                )}
-              </div>
+            {fields.map((fieldConfig) => (
+              <FormFieldAdapter
+                key={fieldConfig.name}
+                fieldConfig={fieldConfig}
+              />
             ))}
 
             <button
