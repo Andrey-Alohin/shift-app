@@ -3,8 +3,7 @@ import { Operation, OperationShift, scheduleMerge } from "./schedule-merge";
 import normalizeAndGroupWeekSchedule, {
   NormalizedShift,
 } from "@/shared/utils/normalizeAndGroupWeekScheudle";
-import { Group, Shift, ShiftType, User } from "@/shared/api";
-import { set } from "date-fns";
+import { Shift, ShiftType, User } from "@/shared/api";
 
 interface UseScheduleEditor {
   rawShifts: Shift[];
@@ -19,7 +18,6 @@ interface CreateClipShift {
   _id: string;
   user: User;
   actualGroupId: null;
-  originGroupId: Group;
   type: ShiftType | null;
   startAt: string | null;
   endAt: string | null;
@@ -60,7 +58,6 @@ export function useScheduleEditor({
         _id: Date.now().toString(),
         user: user,
         actualGroupId: null,
-        originGroupId: user?.groupId as Group,
         type: null,
         startAt: null,
         endAt: null,
