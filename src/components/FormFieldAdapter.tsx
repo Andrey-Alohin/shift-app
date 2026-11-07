@@ -6,7 +6,7 @@ interface FormFieldAdapterProps<Tname extends string> {
   fieldConfig: FormFieldConfig<Tname>;
 }
 
-export default function FormFieldAdapter({
+export default function FormFieldAdapter<TName extends string>({
   fieldConfig,
 }: FormFieldAdapterProps<TName>) {
   const [field, meta] = useField(fieldConfig.name);
@@ -20,7 +20,7 @@ export default function FormFieldAdapter({
       >
         {fieldConfig.label}
       </label>
-      {() => {
+      {(() => {
         switch (fieldConfig.type) {
           case "input":
             return (
@@ -60,7 +60,7 @@ export default function FormFieldAdapter({
           default:
             return null;
         }
-      }}
+      })()}
       {hasError && (
         <div className="mt-1 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
           {meta.error}

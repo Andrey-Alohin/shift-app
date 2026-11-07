@@ -1,30 +1,32 @@
-import { api } from "@/shared/api";
+import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
 import axios from "axios";
-import { FormikHelpers } from "formik";
+import { FieldConfig, FormikHelpers } from "formik";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { NextRouter } from "next/router";
 import { toast } from "sonner";
 import * as Yup from "yup";
-
-const fields = [
-  {
-    name: "email",
-    type: "email",
-    label: "Email",
-    placeholder: "name@company.com",
-  },
-  {
-    name: "password",
-    type: "password",
-    label: "Password",
-    placeholder: "••••••••",
-  },
-];
-
 const initialValues = {
   email: "",
   password: "",
 };
+
+const fields: FormFieldConfig<keyof typeof initialValues>[] = [
+  {
+    name: "email",
+    type: "input",
+    inputType: "email",
+    label: "Email",
+    placeholder: "name@company.com",
+    disabled: false,
+  },
+  {
+    name: "password",
+    type: "input",
+    inputType: "password",
+    label: "Password",
+    placeholder: "••••••••",
+    disabled: false,
+  },
+];
 
 const validationSchema = Yup.object({
   email: Yup.string().email().required().label("Email"),
