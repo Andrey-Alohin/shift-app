@@ -1,9 +1,9 @@
 import DynamicForm from "@/components/Form/Form";
 import { useShiftFormModel } from "../model";
 
-export default function ShiftCreatePage({ users, groups }) {
+export default function ShiftForm({ users, groups, initialValues, onSubmit }) {
   const { initialValues, validationSchema, fields, handleSubmit } =
-    useShiftFormModel(users, groups, () => console.log("Готово!"));
+    useShiftFormModel(users, groups, onSubmit);
 
   return (
     <div className="p-6">
@@ -12,7 +12,7 @@ export default function ShiftCreatePage({ users, groups }) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         fields={fields}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         submitLabel="Зберегти зміну"
       />
     </div>

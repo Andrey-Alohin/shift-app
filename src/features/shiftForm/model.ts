@@ -25,6 +25,7 @@ const validationSchema = Yup.object({
 export const useShiftFormModel = (
   users: User[],
   groups: Group[],
+  initValues,
   onSuccess?: () => void,
 ) => {
   // 3. Динамічний конфіг полів із 100% збереженням типів

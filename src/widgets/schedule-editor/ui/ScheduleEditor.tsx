@@ -2,8 +2,6 @@
 
 import { WeekView } from "@/features/Week/types";
 import { useScheduleEditor } from "../model/useScheduleEditor";
-import { getServerUser } from "@/entities/user/api/getServerUser";
-import { getServerSchedule } from "@/entities/shift/api/getServerSchedule";
 import { Group, Role, Shift, User } from "@/shared/api";
 import Week from "@/features/Week/Week";
 import ShiftCreatePage from "@/features/shiftForm/ui/ShiftForm";
@@ -44,6 +42,7 @@ export function ScheduleEditor({
   const {
     uiShifts,
     clipShift,
+    setOperationShifts,
     isFormOpen,
     handleSetCreateOperation,
     handleSetUpdateOperation,
@@ -59,7 +58,14 @@ export function ScheduleEditor({
       <button onClick={() => handleSetCreateOperation(currentUser)}>
         Створити нову зміну
       </button>
-      {isFormOpen && <ShiftCreatePage users={users} groups={groups} />}
+      {isFormOpen && (
+        <ShiftCreatePage
+          users={users}
+          groups={groups}
+          clipShift={clipShift}
+          onSubmit={setOperationShifts}
+        />
+      )}
     </div>
   );
 }
