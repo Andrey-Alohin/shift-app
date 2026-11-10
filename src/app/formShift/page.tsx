@@ -1,12 +1,12 @@
 "use client";
 
 import { ShiftType } from "@/shared/api";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { SubmitEventHandler, useState } from "react";
 
 export default function ShiftForm() {
   const [formValues, setFormValues] = useState({
     type: "",
+    date: "",
     startAt: "",
     endAt: "",
     actualGroupId: "",
@@ -20,9 +20,23 @@ export default function ShiftForm() {
       [name]: value,
     }));
   };
+
+  const handleSubmit: SubmitEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    const startAt = new Date(
+      formValues.date + formValues.startAt,
+    ).toISOString();
+    const endAt = new Date(formValues.date + formValues.endAt).toISOString();
+    console.log({
+      _id: "1",
+      ...formValues,
+      startAt,
+      endAt,
+    });
+  };
   return (
     <div className="p-5 m-auto">
-      <form>
+      <form className="flex flex-col">
         <label htmlFor="type">Тип зміни</label>
         <select name="type" value={formValues.type} onChange={handleChange}>
           <option defaultValue={""}>Оберіть</option>
@@ -31,16 +45,29 @@ export default function ShiftForm() {
           <option value={ShiftType.SickLeave}>Лікарняний</option>
           <option value={ShiftType.Vacation}>Лікарняний</option>
         </select>
+        <label htmlFor="date">День</label>
+        <input
+          min="2026-11-09"
+          max="2026-11-15"
+          type="date"
+          name="date"
+          value={formValues.date}
+          onChange={handleChange}
+        />
         <label htmlFor="startAt">Початок зміни</label>
         <input
-          type="datetime-local"
+          type="time"
+          min="08:00"
+          max="21:00"
           name="startAt"
           value={formValues.startAt}
           onChange={handleChange}
         />
-        <label htmlFor="endAt">Початок зміни</label>
+        <label htmlFor="endAt">Кінець зміни</label>
         <input
-          type="datetime-local"
+          min="08:00"
+          max="21:00"
+          type="time"
           name="endAt"
           value={formValues.endAt}
           onChange={handleChange}
@@ -55,6 +82,9 @@ export default function ShiftForm() {
           <option value="2">Відділення 2</option>
           <option value="3">Відділення 3</option>
         </select>
+        <button type="submit" onSubmit={() => handleSubmit}>
+          Зберегти
+        </button>
       </form>
     </div>
   );

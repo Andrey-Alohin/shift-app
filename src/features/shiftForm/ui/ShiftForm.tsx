@@ -1,7 +1,7 @@
 import DynamicForm from "@/components/Form/Form";
 import { useShiftFormModel } from "../model";
 
-export default function ShiftForm({ users, groups, initialValues, onSubmit }) {
+export default function ShiftForm({ users, groups, clipShift, onSubmit }) {
   const { initialValues, validationSchema, fields, handleSubmit } =
     useShiftFormModel(users, groups, onSubmit);
 
