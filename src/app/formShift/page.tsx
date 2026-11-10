@@ -55,6 +55,7 @@ export default function ShiftForm() {
           onChange={handleChange}
         />
         <label htmlFor="startAt">Початок зміни</label>
+        <input type="range" name="" id="" />
         <input
           type="time"
           min="08:00"

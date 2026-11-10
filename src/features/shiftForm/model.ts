@@ -60,13 +60,8 @@ export const useShiftFormModel = (
     {
       name: "startAt",
       label: "Початок зміни",
-      type: "time-range",
-      config: {
-        min: "00:00",
-        max: "23:59",
-      },
-      startAt: "08:00",
-      endAt: "20:00",
+      type: "input",
+      inputType: "range",
     },
   ];
 
