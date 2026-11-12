@@ -9,6 +9,7 @@ export type FormFieldConfig<TValues extends Record<string, unknown>> = {
     | (BaseField<K & string> & {
         type: "input";
         placeholder?: string;
+        onSubmit;
         inputType?: "text" | "email" | "password";
       })
     | (BaseField<K & string> & {
@@ -21,7 +22,13 @@ export type FormFieldConfig<TValues extends Record<string, unknown>> = {
           min: string;
           max: string;
         };
-        startAt: string;
-        endAt: string;
+        fields: [
+          { name: "startAt"; type: "time"; value: string },
+          {
+            name: "endAt";
+            type: "time";
+            value: string;
+          },
+        ];
       });
 }[keyof TValues];

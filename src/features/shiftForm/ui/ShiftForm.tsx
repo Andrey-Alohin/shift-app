@@ -12,7 +12,7 @@ export default function ShiftForm({ users, groups, clipShift, onSubmit }) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         fields={fields}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         submitLabel="Зберегти зміну"
       />
     </div>

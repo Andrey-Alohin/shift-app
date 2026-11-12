@@ -1,6 +1,7 @@
 import { useField } from "formik";
 import { FormFieldConfig } from "./Form/FormFieldConfig";
 import Input from "@/shared/ui/Input";
+import TimeRangeField from "./TimeRangeField/TimeRangeField";
 
 interface FormFieldAdapterProps<TValues extends Record<string, unknown>> {
   fieldConfig: FormFieldConfig<TValues>;
@@ -9,6 +10,11 @@ interface FormFieldAdapterProps<TValues extends Record<string, unknown>> {
 export default function FormFieldAdapter<
   TAVlues extends Record<string, unknown>,
 >({ fieldConfig }: FormFieldAdapterProps<TAVlues>) {
+  if (fieldConfig.type === "time-range") {
+    return (
+      <TimeRangeField fields={fieldConfig.fields} config={fieldConfig.config} />
+    );
+  }
   const [field, meta] = useField(fieldConfig.name);
   const hasError = meta.touched && Boolean(meta.error);
 
@@ -55,6 +61,7 @@ export default function FormFieldAdapter<
                 <span>
                   {fieldConfig.config.min}-{fieldConfig.config.max}
                 </span>
+                <input type="time" {...field} />
               </div>
             );
           default:
