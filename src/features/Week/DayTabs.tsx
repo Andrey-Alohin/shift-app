@@ -50,7 +50,6 @@ export default function DayTabs({ schedule, activeDay }: DayTabs) {
         })}
       </ul>
       <div>
-        <h2 className="text-center">{day}</h2>
         <DayCard day={schedule[day]} />
       </div>
     </div>
