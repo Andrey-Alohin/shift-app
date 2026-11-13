@@ -42,7 +42,7 @@ export function ScheduleEditor({
   const {
     uiShifts,
     clipShift,
-    setOperationShifts,
+    handleSetOperationsShifts,
     isFormOpen,
     handleSetCreateOperation,
     handleSetUpdateOperation,
@@ -55,15 +55,12 @@ export function ScheduleEditor({
   return (
     <div>
       <Week weekSchedule={uiShifts} view={view} day={activeDay} />
-      <button onClick={() => handleSetCreateOperation(currentUser)}>
-        Створити нову зміну
-      </button>
       {isFormOpen && (
         <ShiftCreatePage
           users={users}
           groups={groups}
           clipShift={clipShift}
-          onSubmit={setOperationShifts}
+          onSubmit={handleSetOperationsShifts}
         />
       )}
     </div>

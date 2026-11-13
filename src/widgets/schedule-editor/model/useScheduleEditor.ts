@@ -51,7 +51,7 @@ export function useScheduleEditor({
     return scheduleMerge({ rawShifts: oldShifts, operationShifts });
   }, [oldShifts, operationShifts]);
 
-  const handleSetCreateOperation = (user: User) => {
+  const handleSetCreateOperation = (user: User, date: string) => {
     setClipShift({
       operation: Operation.Create,
       shift: {
@@ -59,11 +59,15 @@ export function useScheduleEditor({
         user: user,
         actualGroupId: null,
         type: null,
-        startAt: null,
-        endAt: null,
+        startAt: date,
+        endAt: date,
       },
     });
     setIsFormOpen(true);
+  };
+
+  const handleSetOperationsShifts = (operation: OperationShift) => {
+    setOperationShifts((operarions) => [...operarions, operation]);
   };
 
   const handleSetUpdateOperation = (shift: NormalizedShift) => {
@@ -93,7 +97,7 @@ export function useScheduleEditor({
     clipShift,
     isFormOpen,
     setIsFormOpen,
-    setOperationShifts,
+    handleSetOperationsShifts,
     handleSetCreateOperation,
     handleSetUpdateOperation,
     handleSetDeleteOperation,
