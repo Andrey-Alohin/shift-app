@@ -12,6 +12,7 @@ interface UseScheduleEditor {
     end: string;
   };
   currentUser: User;
+  groupUsers: User[];
 }
 
 interface CreateClipShift {
@@ -40,6 +41,7 @@ export function useScheduleEditor({
   rawShifts,
   weekBounds,
   currentUser,
+  groupUsers,
 }: UseScheduleEditor) {
   const oldShifts = rawShifts;
   const [operationShifts, setOperationShifts] = useState<OperationShift[]>([]);
@@ -92,8 +94,17 @@ export function useScheduleEditor({
     currentUser,
   });
 
+  const unassignedUsersByDate = useMemo(() => {
+    const res: Record<string, User[]> = {};
+    Object.entries(normalizedShifts).forEach(([key, data]) => {
+      const busyUsers = new Set(data.shifts.map((shift) => shift.user._id));
+      res[key] = groupUsers.filter((user) => !busyUsers.has(user._id));
+    });
+    return res;
+  }, [groupUsers, normalizedShifts]);
   return {
     uiShifts: normalizedShifts,
+    unassignedUsersByDate,
     clipShift,
     isFormOpen,
     setIsFormOpen,
