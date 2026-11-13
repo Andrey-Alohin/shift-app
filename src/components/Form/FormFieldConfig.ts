@@ -9,7 +9,6 @@ export type FormFieldConfig<TValues extends Record<string, unknown>> = {
     | (BaseField<K & string> & {
         type: "input";
         placeholder?: string;
-        onSubmit;
         inputType?: "text" | "email" | "password";
       })
     | (BaseField<K & string> & {

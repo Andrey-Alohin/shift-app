@@ -10,11 +10,6 @@ interface FormFieldAdapterProps<TValues extends Record<string, unknown>> {
 export default function FormFieldAdapter<
   TAVlues extends Record<string, unknown>,
 >({ fieldConfig }: FormFieldAdapterProps<TAVlues>) {
-  if (fieldConfig.type === "time-range") {
-    return (
-      <TimeRangeField fields={fieldConfig.fields} config={fieldConfig.config} />
-    );
-  }
   const [field, meta] = useField(fieldConfig.name);
   const hasError = meta.touched && Boolean(meta.error);
 
@@ -56,13 +51,10 @@ export default function FormFieldAdapter<
             );
           case "time-range":
             return (
-              <div>
-                <input type="time" {...field} />
-                <span>
-                  {fieldConfig.config.min}-{fieldConfig.config.max}
-                </span>
-                <input type="time" {...field} />
-              </div>
+              <TimeRangeField
+                fields={fieldConfig.fields}
+                config={fieldConfig.config}
+              />
             );
           default:
             return null;
