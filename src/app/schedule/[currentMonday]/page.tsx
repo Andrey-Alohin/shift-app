@@ -10,10 +10,11 @@ import { parseISO } from "date-fns";
 import { getServerUser } from "@/entities/user/api/getServerUser";
 import { getServerSchedule } from "@/entities/shift/api/getServerSchedule";
 import { ScheduleEditor } from "@/widgets/schedule-editor/ui/ScheduleEditor";
+import { Role } from "@/shared/api";
 
 interface PageProps {
   params: Promise<{ currentMonday: string }>;
-  searchParams: Promise<{ view?: WeekView; mode?: string }>;
+  searchParams: Promise<{ view?: WeekView }>;
 }
 
 export default async function Schedule({ params, searchParams }: PageProps) {
@@ -25,7 +26,7 @@ export default async function Schedule({ params, searchParams }: PageProps) {
 
     return redirect(`/schedule/${monday}`);
   }
-  const { view = WeekView.Week, mode = "view" } = await searchParams;
+  const { view = WeekView.Week } = await searchParams;
   const todayStr = formatToKiyvDate(new Date());
   let activeDay;
   if (isDayInWeek(todayStr, mondayStr)) {
@@ -37,17 +38,17 @@ export default async function Schedule({ params, searchParams }: PageProps) {
     getServerUser(),
     getServerSchedule(mondayStr),
   ]);
-  const isEditMode = mode === "edit";
+  const isManager = currentUser.role === Role.Manager;
   return (
     <main>
-      {!isEditMode && (
+      {!isManager && (
         <ScheduleViewer
           mondayStr={mondayStr}
           view={view}
           activeDay={activeDay}
         />
       )}
-      {isEditMode && (
+      {isManager && (
         <ScheduleEditor
           mondayStr={mondayStr}
           view={view}

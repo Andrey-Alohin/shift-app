@@ -19,3 +19,9 @@ export const login = async ({
   );
   return data.data;
 };
+
+export const refresh = async (): Promise<LoginResponse> => {
+  const { data } =
+    await baseApi.post<ApiResponse<LoginResponse>>("/auth/refresh");
+  return data.data;
+};
