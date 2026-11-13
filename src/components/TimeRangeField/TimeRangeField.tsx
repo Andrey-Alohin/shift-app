@@ -26,6 +26,9 @@ export default function TimeRangeField({
 }: TimeRangeFieldProps) {
   const [{ startAtField, startAtMeta }, { endAtField, endAtMeta }] =
     useTimeRangeField(fields);
+  const hasError =
+    (startAtMeta?.touched && Boolean(startAtMeta.error)) ||
+    (endAtMeta?.touched && Boolean(endAtMeta.error));
   return (
     <fieldset>
       <legend>Select time range</legend>
@@ -43,6 +46,11 @@ export default function TimeRangeField({
         min={config.min}
         max={config.max}
       />
+      {hasError && (
+        <div className="mt-1 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
+          {startAtMeta?.error || endAtMeta?.error}
+        </div>
+      )}
     </fieldset>
   );
 }
