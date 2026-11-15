@@ -5,6 +5,7 @@ import { useScheduleEditor } from "../model/useScheduleEditor";
 import { Group, Role, Shift, User } from "@/shared/api";
 import Week from "@/features/Week/Week";
 import ShiftCreatePage from "@/features/shiftForm/ui/ShiftForm";
+import UnassignedUsersList from "./UnassignedUsersList";
 
 interface ScheduleEditorProps {
   mondayStr: string;
@@ -42,6 +43,7 @@ export function ScheduleEditor({
   const {
     uiShifts,
     clipShift,
+    unassignedUsersByDate,
     handleSetOperationsShifts,
     isFormOpen,
     handleSetCreateOperation,
@@ -51,10 +53,15 @@ export function ScheduleEditor({
     rawShifts: backendData.shifts,
     currentUser,
     weekBounds: backendData.weekBounds,
+    groupUsers: users,
   });
   return (
     <div>
       <Week weekSchedule={uiShifts} view={view} day={activeDay} />
+      <UnassignedUsersList
+        unassignedUsers={unassignedUsersByDate}
+        createShiftFunc={handleSetCreateOperation}
+      />
       {isFormOpen && (
         <ShiftCreatePage
           users={users}

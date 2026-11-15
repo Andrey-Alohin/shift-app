@@ -23,7 +23,11 @@ export function Avatar({ src, name, className, ...restProps }: AvatarProps) {
           className="h-full w-full object-cover"
         />
       ) : (
-        <span role="img" aria-label={"picute" + name} className="font-sm">
+        <span
+          role="img"
+          aria-label={"picute" + name}
+          className="font-sm rounded-full p-2"
+        >
           {getInitials(name)}
         </span>
       )}
