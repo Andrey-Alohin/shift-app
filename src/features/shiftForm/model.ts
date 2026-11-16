@@ -94,7 +94,7 @@ export const useShiftFormModel = (
       // Трансформуємо плоскі ID з форми у структуру, яку чекає бекенд
       const payload = {
         user: values.user,
-        actualGroupId: { _id: values.actualGroupId },
+        actualGroupId: values.actualGroupId,
         type: values.type,
         startAt: values.startAt,
         endAt: values.endAt,

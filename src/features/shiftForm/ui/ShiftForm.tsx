@@ -10,7 +10,6 @@ export default function ShiftForm({ users, groups, clipShift, onSubmit }) {
       <h1 className="text-xl font-bold mb-4">Створити зміну</h1>
       <DynamicForm
         initialValues={initialValues}
-        validationSchema={validationSchema}
         fields={fields}
         onSubmit={handleSubmit}
         submitLabel="Зберегти зміну"
