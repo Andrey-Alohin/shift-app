@@ -25,6 +25,8 @@ export default function DynamicForm<TValues extends Record<string, unknown>>(
     children,
   } = props;
 
+  console.log(initialValues, onSubmit);
+
   return (
     <div className="w-full max-w-sm space-y-8">
       {children}

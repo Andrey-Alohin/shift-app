@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 // 1. Стан форми на базі ID (ідеально для нативних селектів)
 const initialValues = {
-  userId: "",
+  user: "",
   actualGroupId: "",
   type: "" as ShiftType | "",
   startAt: "",
@@ -28,12 +28,14 @@ export const useShiftFormModel = (
   initValues,
   onSuccess?: () => void,
 ) => {
+  const fieldValues = { ...initialValues, ...initValues };
   // 3. Динамічний конфіг полів із 100% збереженням типів
   const fields: FormFieldConfig<typeof initialValues>[] = [
     {
-      name: "userId",
+      name: "user",
       label: "Працівник",
       type: "select",
+      value: String(fieldValues.user._id) && "",
       options: users.map((user) => ({
         label: user.firstName, // Назва користувача для відображення
         value: user._id, // ID як рядок, що чітко збігається з userId у initialValues
@@ -43,6 +45,7 @@ export const useShiftFormModel = (
       name: "actualGroupId",
       label: "На яке відділення",
       type: "select",
+      value: "",
       options: groups.map((group) => ({
         label: group.name,
         value: group._id,
@@ -52,6 +55,7 @@ export const useShiftFormModel = (
       name: "type",
       label: "Вибір типу",
       type: "select",
+      value: fieldValues.type && "",
       options: Object.values(ShiftType).map((type) => ({
         label: String(type),
         value: type,
@@ -69,12 +73,12 @@ export const useShiftFormModel = (
         {
           name: "startAt",
           type: "time",
-          value: "",
+          value: fieldValues.startAt && "",
         },
         {
           name: "endAt",
           type: "time",
-          value: "",
+          value: fieldValues.endAt && "",
         },
       ],
     },
@@ -86,9 +90,10 @@ export const useShiftFormModel = (
     actions: FormikHelpers<typeof initialValues>,
   ) => {
     try {
+      console.log(values);
       // Трансформуємо плоскі ID з форми у структуру, яку чекає бекенд
       const payload = {
-        user: { _id: values.userId },
+        user: values.user,
         actualGroupId: { _id: values.actualGroupId },
         type: values.type,
         startAt: values.startAt,
@@ -110,7 +115,7 @@ export const useShiftFormModel = (
   };
 
   return {
-    initialValues,
+    initialValues: fieldValues,
     validationSchema,
     fields,
     handleSubmit,

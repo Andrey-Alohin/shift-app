@@ -17,7 +17,7 @@ interface UseScheduleEditor {
 
 interface CreateClipShift {
   _id: string;
-  user: User;
+  user: string;
   actualGroupId: null;
   type: ShiftType | null;
   startAt: string | null;
@@ -58,7 +58,7 @@ export function useScheduleEditor({
       operation: Operation.Create,
       shift: {
         _id: Date.now().toString(),
-        user: user,
+        user: user._id,
         actualGroupId: null,
         type: null,
         startAt: date,

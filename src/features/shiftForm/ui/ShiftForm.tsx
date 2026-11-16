@@ -3,8 +3,8 @@ import { useShiftFormModel } from "../model";
 
 export default function ShiftForm({ users, groups, clipShift, onSubmit }) {
   const { initialValues, validationSchema, fields, handleSubmit } =
-    useShiftFormModel(users, groups, onSubmit);
-  console.log(clipShift, initialValues);
+    useShiftFormModel(users, groups, clipShift.shift, onSubmit);
+  console.log(initialValues);
   return (
     <div className="p-6">
       <h1 className="text-xl font-bold mb-4">Створити зміну</h1>

@@ -38,6 +38,7 @@ export function ScheduleEditor({
   ];
   const groups: Group[] = [
     { _id: "2", name: "Відділення №3", managerId: "312", schedule: [] },
+    { _id: "3", name: "Відділення №4", managerId: "312", schedule: [] },
   ];
 
   const {
