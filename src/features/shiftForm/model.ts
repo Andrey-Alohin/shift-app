@@ -28,7 +28,7 @@ export const useShiftFormModel = (
   initValues,
   onSuccess?: () => void,
 ) => {
-  const fieldValues = { ...initialValues, ...initValues };
+  const fieldValues = { ...initialValues, ...initValues.shift };
   // 3. Динамічний конфіг полів із 100% збереженням типів
   const fields: FormFieldConfig<typeof initialValues>[] = [
     {
@@ -105,7 +105,24 @@ export const useShiftFormModel = (
       // Тут буде запит до API (наприклад, await axios.post("/api/shifts", payload))
 
       toast.success("Зміну успішно збережено!");
-      onSuccess?.();
+      console.log(initValues);
+      const startAt = new Date(initValues.shift.startAt).setHours(
+        payload.startAt.slice(":")[0],
+        payload.startAt.slice(":")[1],
+      );
+      console.log(startAt.toString());
+      // const endAt = new Date(
+      //   initValues.shift.startAt + payload.endAt,
+      // ).toISOString();
+
+      onSuccess?.({
+        operation: initValues.operations,
+        shift: {
+          ...payload,
+          startAt: startAt.toString(),
+          endAt,
+        },
+      });
     } catch (err) {
       toast.error("Не вдалося зберегти зміну");
       console.error(err);

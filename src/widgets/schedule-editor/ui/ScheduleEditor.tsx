@@ -50,12 +50,14 @@ export function ScheduleEditor({
     handleSetCreateOperation,
     handleSetUpdateOperation,
     handleSetDeleteOperation,
+    operationShifts,
   } = useScheduleEditor({
     rawShifts: backendData.shifts,
     currentUser,
     weekBounds: backendData.weekBounds,
     groupUsers: users,
   });
+  console.log("operations", operationShifts, uiShifts);
   return (
     <div>
       <Week weekSchedule={uiShifts} view={view} day={activeDay} />

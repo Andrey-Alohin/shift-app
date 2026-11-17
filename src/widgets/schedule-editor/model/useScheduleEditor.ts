@@ -112,5 +112,6 @@ export function useScheduleEditor({
     handleSetCreateOperation,
     handleSetUpdateOperation,
     handleSetDeleteOperation,
+    operationShifts,
   };
 }
