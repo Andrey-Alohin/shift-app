@@ -3,6 +3,7 @@ import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
 import { ShiftType, User, Group } from "@/shared/api";
 import * as Yup from "yup";
 import { toast } from "sonner";
+import { OperationShift } from "@/widgets/schedule-editor/model/schedule-merge";
 
 // 1. Стан форми на базі ID (ідеально для нативних селектів)
 const initialValues = {
@@ -131,16 +132,29 @@ export const useShiftFormModel = (
       const objUser = users.find((user) => payload.user === user._id);
       const GroupObj = groups.find((group) => group._id === objUser?.groupId);
 
-      console.log(GroupObj);
+      const newOperation: OperationShift = {
+        operation: initValues.operations,
+        shift: {
+          ...payload,
+          user: objUser,
+          actualGroupId: groups.find((group) => group._id === objUser?.groupId),
+          originGroupId: GroupObj,
+          startAt: setTime,
+          endAt: endTime,
+        },
+      };
+
+      console.log(newOperation);
       onSuccess?.({
         operation: initValues.operation,
         shift: {
           ...payload,
+          _id: new Date(),
           user: objUser,
           actualGroupId: groups.find(
             (group) => group._id === payload.actualGroupId,
           ),
-          originGroup: GroupObj,
+          originGroupId: GroupObj,
           startAt: setTime,
           endAt: endTime,
         },
