@@ -3,6 +3,7 @@ import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
 import { ShiftType, User, Group } from "@/shared/api";
 import * as Yup from "yup";
 import { toast } from "sonner";
+import { start } from "repl";
 
 // 1. Стан форми на базі ID (ідеально для нативних селектів)
 const initialValues = {
@@ -45,7 +46,7 @@ export const useShiftFormModel = (
       name: "actualGroupId",
       label: "На яке відділення",
       type: "select",
-      value: "",
+      value: String(fieldValues.actualGroupId) && "",
       options: groups.map((group) => ({
         label: group.name,
         value: group._id,
@@ -72,12 +73,12 @@ export const useShiftFormModel = (
       fields: [
         {
           name: "startAt",
-          type: "time",
+          type: "datetime-local",
           value: fieldValues.startAt && "",
         },
         {
           name: "endAt",
-          type: "time",
+          type: "datetime-local",
           value: fieldValues.endAt && "",
         },
       ],
@@ -106,21 +107,34 @@ export const useShiftFormModel = (
 
       toast.success("Зміну успішно збережено!");
       console.log(initValues);
-      const startAt = new Date(initValues.shift.startAt).setHours(
-        payload.startAt.slice(":")[0],
-        payload.startAt.slice(":")[1],
-      );
+      const startAt = new Date(payload.startAt);
+      const setTime = startAt.toISOString();
+      // new Date(
+      //   startAt.setHours(
+      //     Number(payload.startAt.slice(":")[0]),
+      //     Number(payload.startAt.slice(":")[1]),
+      //   ),
+      // );
+
+      const endAt = new Date(payload.endAt);
+      const endTime = endAt.toISOString();
+      // new Date(
+      //   endAt.setHours(
+      //     Number(payload.endAt.slice(":")[0]),
+      //     Number(payload.endAt.slice(":")[1]),
+      //   ),
+      // );
       console.log(startAt.toString());
       // const endAt = new Date(
       //   initValues.shift.startAt + payload.endAt,
       // ).toISOString();
 
       onSuccess?.({
-        operation: initValues.operations,
+        operation: initValues.operation,
         shift: {
           ...payload,
-          startAt: startAt.toString(),
-          endAt,
+          startAt: setTime,
+          endAt: endTime,
         },
       });
     } catch (err) {
