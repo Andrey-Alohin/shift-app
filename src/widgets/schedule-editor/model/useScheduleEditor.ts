@@ -24,7 +24,7 @@ interface CreateClipShift {
   endAt: string | null;
 }
 
-type ClipShift =
+export type ClipShift =
   | {
       operation: Operation.Create;
       shift: CreateClipShift;
