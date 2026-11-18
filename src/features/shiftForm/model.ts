@@ -3,7 +3,6 @@ import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
 import { ShiftType, User, Group } from "@/shared/api";
 import * as Yup from "yup";
 import { toast } from "sonner";
-import { start } from "repl";
 
 // 1. Стан форми на базі ID (ідеально для нативних селектів)
 const initialValues = {
@@ -36,7 +35,7 @@ export const useShiftFormModel = (
       name: "user",
       label: "Працівник",
       type: "select",
-      value: String(fieldValues.user._id) && "",
+      value: "",
       options: users.map((user) => ({
         label: user.firstName, // Назва користувача для відображення
         value: user._id, // ID як рядок, що чітко збігається з userId у initialValues
@@ -46,7 +45,7 @@ export const useShiftFormModel = (
       name: "actualGroupId",
       label: "На яке відділення",
       type: "select",
-      value: String(fieldValues.actualGroupId) && "",
+      value: "",
       options: groups.map((group) => ({
         label: group.name,
         value: group._id,
@@ -56,7 +55,7 @@ export const useShiftFormModel = (
       name: "type",
       label: "Вибір типу",
       type: "select",
-      value: fieldValues.type && "",
+      value: "",
       options: Object.values(ShiftType).map((type) => ({
         label: String(type),
         value: type,
@@ -129,10 +128,19 @@ export const useShiftFormModel = (
       //   initValues.shift.startAt + payload.endAt,
       // ).toISOString();
 
+      const objUser = users.find((user) => payload.user === user._id);
+      const GroupObj = groups.find((group) => group._id === objUser?.groupId);
+
+      console.log(GroupObj);
       onSuccess?.({
         operation: initValues.operation,
         shift: {
           ...payload,
+          user: objUser,
+          actualGroupId: groups.find(
+            (group) => group._id === payload.actualGroupId,
+          ),
+          originGroup: GroupObj,
           startAt: setTime,
           endAt: endTime,
         },

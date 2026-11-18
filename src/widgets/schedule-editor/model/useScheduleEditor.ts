@@ -59,8 +59,8 @@ export function useScheduleEditor({
       shift: {
         _id: Date.now().toString(),
         user: user._id,
-        actualGroupId: null,
-        type: null,
+        actualGroupId: "",
+        type: "",
         startAt: date,
         endAt: date,
       },

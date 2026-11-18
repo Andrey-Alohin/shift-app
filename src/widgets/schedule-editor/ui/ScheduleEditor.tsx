@@ -33,7 +33,7 @@ export function ScheduleEditor({
       middleName: "Monster",
       email: "sss@d",
       role: Role.User,
-      groupId: "sac",
+      groupId: "2",
     },
   ];
   const groups: Group[] = [

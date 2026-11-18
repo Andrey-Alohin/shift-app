@@ -37,6 +37,7 @@ export default function FormFieldAdapter<
               <select
                 id={fieldConfig.name}
                 disabled={fieldConfig.disabled}
+                value=""
                 {...field}
               >
                 <option value="" disabled>
