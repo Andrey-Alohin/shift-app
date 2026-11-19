@@ -1,5 +1,5 @@
 import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
-import { Group, User } from "@/shared/api";
+import { Group, ShiftType, User } from "@/shared/api";
 import {
   Operation,
   OperationShift,
@@ -35,7 +35,13 @@ export default function useShiftFormModel({
     };
     const fields: FormFieldConfig<typeof fieldValues>[] = [
       {
-        name: "",
+        name: "type",
+        label: "Вибір типу зміни",
+        type: "select",
+        options: Object.values(ShiftType).map((type) => ({
+          label: "",
+          value: type,
+        })),
       },
     ];
   }
