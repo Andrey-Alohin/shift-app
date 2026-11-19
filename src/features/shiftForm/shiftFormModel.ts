@@ -1,5 +1,6 @@
 import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
 import { Group, ShiftType, User } from "@/shared/api";
+import { SHIFT_TYPE_OPTIONS } from "@/shared/config/shiftTypes";
 import {
   Operation,
   OperationShift,
@@ -29,19 +30,44 @@ export default function useShiftFormModel({
 }: UseShiftFormModel) {
   if (initValues?.operation === Operation.Create && initValues) {
     const fieldValues = {
+      user: "",
       type: "",
+      actualGroupId: "",
       startAt: "",
       endAt: "",
     };
     const fields: FormFieldConfig<typeof fieldValues>[] = [
       {
+        name: "user",
+        label: "Вибір працівника",
+        type: "select",
+        value: initValues.shift.user ? initValues.shift.user : fieldValues.user,
+        options: users.map(({ _id, firstName, lastName }) => ({
+          label: `${lastName} ${firstName}`,
+          value: _id,
+        })),
+      },
+      {
         name: "type",
         label: "Вибір типу зміни",
         type: "select",
-        options: Object.values(ShiftType).map((type) => ({
-          label: "",
-          value: type,
+        value: "",
+        options: SHIFT_TYPE_OPTIONS,
+      },
+      {
+        name: "actualGroupId",
+        label: "На яке відділення",
+        type: "select",
+        value: "",
+        options: groups.map((group) => ({
+          label: group.name,
+          value: group._id,
         })),
+      },
+      {
+        name: "startAt",
+        type: "input",
+        inputType: "",
       },
     ];
   }

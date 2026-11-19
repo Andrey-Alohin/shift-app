@@ -1,6 +1,7 @@
 interface BaseField<TFormName extends string> {
   name: TFormName;
   label: string;
+  value: string;
   disabled?: boolean;
 }
 

@@ -18,10 +18,10 @@ interface UseScheduleEditor {
 interface CreateClipShift {
   _id: string;
   user: string;
-  actualGroupId: null;
-  type: ShiftType | null;
-  startAt: string | null;
-  endAt: string | null;
+  actualGroupId: string;
+  type: ShiftType | string;
+  startAt: string | string;
+  endAt: string | string;
 }
 
 export type ClipShift =
