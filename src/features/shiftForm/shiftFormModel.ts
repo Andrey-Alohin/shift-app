@@ -1,11 +1,18 @@
 import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
-import { Group, ShiftType, User } from "@/shared/api";
+import { Group, ShiftApiPayload, ShiftType, User } from "@/shared/api";
 import { SHIFT_TYPE_OPTIONS } from "@/shared/config/shiftTypes";
 import {
   Operation,
   OperationShift,
 } from "@/widgets/schedule-editor/model/schedule-merge";
 import { ClipShift } from "@/widgets/schedule-editor/model/useScheduleEditor";
+import { FormikHelpers } from "formik";
+
+const buildShiftTimestamps = (date: string) => {
+  if (!isNaN(new Date(date).getTime())) {
+    return (time) => new Date(`${date}T${time}:00`);
+  }
+} 
 
 const initialValues = {
   user: "",
@@ -28,6 +35,7 @@ export default function useShiftFormModel({
   initValues,
   onSuccess,
 }: UseShiftFormModel) {
+
   if (initValues?.operation === Operation.Create && initValues) {
     const fieldValues = {
       user: "",
@@ -67,8 +75,35 @@ export default function useShiftFormModel({
       {
         name: "startAt",
         type: "input",
-        inputType: "",
+        inputType: "time",
+        value: "",
+      },
+      {
+        name: "endAt",
+        type: "input",
+        inputType: "time",
+        value: "",
       },
     ];
+    const handleSubmit = async (
+      values: typeof fieldValues,
+      actions: FormikHelpers<typeof fieldValues>,
+    ) => {
+      const isWork = values.type === ShiftType.Work;
+
+      try {
+        const userObj = users.find((user) => user._id === values.user);
+
+        if (userObj && typeof userObj.groupId === "string") {
+          const payload: ShiftApiPayload = {
+            ...values,
+            originGroupId: userObj.groupId,
+            startAt: 
+          };
+        }
+      } catch {
+      } finally {
+      }
+    };
   }
 }
