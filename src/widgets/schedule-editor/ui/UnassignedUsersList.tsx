@@ -1,6 +1,5 @@
 import { Avatar } from "@/entities/user/ui";
 import { User } from "@/shared/api";
-import { use } from "react";
 
 interface UnassignedUsersListProps {
   unassignedUsers: Record<string, User[]>;
@@ -28,9 +27,11 @@ export default function UnassignedUsersList({
                     />
                     <p>{user.lastName + " " + user.firstName}</p>
                     {createShiftFunc && (
-                      <button onClick={() => createShiftFunc(user, date)}>
-                        Призначити зміну
-                      </button>
+                      <>
+                        <button onClick={() => createShiftFunc(user, date)}>
+                          Призначити зміну
+                        </button>
+                      </>
                     )}
                   </li>
                 ))}
