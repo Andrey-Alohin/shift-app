@@ -7,6 +7,7 @@ import Week from "@/features/Week/Week";
 import ShiftForm from "@/features/shiftForm/ui/ShiftForm";
 import UnassignedUsersList from "./UnassignedUsersList";
 import ScheduleActionsProvider from "@/features/manage-shift/ScheduleActionsProvider";
+import { Modal } from "@/shared/ui/Modal";
 
 interface ScheduleEditorProps {
   mondayStr: string;
@@ -82,6 +83,7 @@ export function ScheduleEditor({
     >
       <Week weekSchedule={uiShifts} view={view} day={activeDay} />
       <UnassignedUsersList unassignedUsers={unassignedUsersByDate} />
+      <Modal isOpen={isModalOpen} closeFunc={closeModal} />
       {/* <ShiftForm
         users={users}
         groups={groups}
