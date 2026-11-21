@@ -29,6 +29,7 @@ export interface NormalizedShift {
   canEdit: boolean;
   startAt: string;
   endAt: string;
+  version: number;
   relatedGroup?: Group;
   status?: Operation;
 }
@@ -129,6 +130,7 @@ export default function normalizeAndGroupWeekSchedule({
       isMe: userObj._id === currentUser._id,
       startAt: formatToKyivTime(rawShift.startAt),
       endAt: formatToKyivTime(rawShift.endAt),
+      version: rawShift.version,
 
       ...((isOutstaffIn || isOutstaffOut) && {
         relatedGroup: isOutstaffIn ? originGroup : actualGroup,
