@@ -77,8 +77,11 @@ export function useScheduleEditor({
   }, []);
 
   const handleSetDeleteOperation = useCallback(
-    ({ id, version }: { id: string; version?: number }) => {
-      setClipShift({ operation: Operation.Delete, shift: { id, version } });
+    ({ _id, version }: { _id: string; version?: number }) => {
+      setClipShift({
+        operation: Operation.Delete,
+        shift: { id: _id, version },
+      });
       setIsModalOpen(true);
     },
     [],
