@@ -4,7 +4,7 @@ import { WeekView } from "@/features/Week/types";
 import { useScheduleEditor } from "../model/useScheduleEditor";
 import { Group, PopulatedUser, Role, Shift, User } from "@/shared/api";
 import Week from "@/features/Week/Week";
-import ShiftCreatePage from "@/features/shiftForm/ui/ShiftForm";
+import ShiftForm from "@/features/shiftForm/ui/ShiftForm";
 import UnassignedUsersList from "./UnassignedUsersList";
 import ScheduleActionsProvider from "@/features/manage-shift/ScheduleActionsProvider";
 
@@ -82,7 +82,7 @@ export function ScheduleEditor({
     >
       <Week weekSchedule={uiShifts} view={view} day={activeDay} />
       <UnassignedUsersList unassignedUsers={unassignedUsersByDate} />
-      {/* <ShiftCreatePage
+      {/* <ShiftForm
         users={users}
         groups={groups}
         clipShift={clipShift}

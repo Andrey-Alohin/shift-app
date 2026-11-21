@@ -1,3 +1,5 @@
+"use client";
+
 import { User } from "@/shared/api";
 import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 import { createContext, use } from "react";
