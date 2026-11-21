@@ -3,7 +3,7 @@ import { Operation, OperationShift, scheduleMerge } from "./schedule-merge";
 import normalizeAndGroupWeekSchedule, {
   NormalizedShift,
 } from "@/shared/utils/normalizeAndGroupWeekSchedule";
-import { Shift, ShiftType, User } from "@/shared/api";
+import { PopulatedUser, Shift, ShiftType, User } from "@/shared/api";
 
 interface UseScheduleEditor {
   rawShifts: Shift[];
@@ -11,7 +11,7 @@ interface UseScheduleEditor {
     start: string;
     end: string;
   };
-  currentUser: User;
+  currentUser: PopulatedUser;
   groupUsers: User[];
 }
 
