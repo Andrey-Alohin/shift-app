@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Operation, OperationShift, scheduleMerge } from "./schedule-merge";
 import normalizeAndGroupWeekSchedule, {
   NormalizedShift,
@@ -19,9 +19,9 @@ interface CreateClipShift {
   _id: string;
   user: string;
   actualGroupId: string;
-  type: ShiftType | string;
-  startAt: string | string;
-  endAt: string | string;
+  type: ShiftType;
+  startAt: string;
+  endAt: string;
 }
 
 export type ClipShift =
@@ -43,50 +43,51 @@ export function useScheduleEditor({
   currentUser,
   groupUsers,
 }: UseScheduleEditor) {
-  const oldShifts = rawShifts;
   const [operationShifts, setOperationShifts] = useState<OperationShift[]>([]);
 
   const [clipShift, setClipShift] = useState<ClipShift>();
-  const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const mergedShifts = useMemo(() => {
-    return scheduleMerge({ rawShifts: oldShifts, operationShifts });
-  }, [oldShifts, operationShifts]);
+    return scheduleMerge({ rawShifts, operationShifts });
+  }, [rawShifts, operationShifts]);
 
-  const handleSetCreateOperation = (user: User, date: string) => {
+  const handleSetCreateOperation = useCallback((user: User, date: string) => {
     setClipShift({
       operation: Operation.Create,
       shift: {
         _id: Date.now().toString(),
         user: user._id,
         actualGroupId: "",
-        type: "",
+        type: ShiftType.Work,
         startAt: date,
         endAt: date,
       },
     });
-    setIsFormOpen(true);
-  };
+    setIsModalOpen(true);
+  }, []);
 
-  const handleSetOperationsShifts = (operation: OperationShift) => {
-    setOperationShifts((operarions) => [...operarions, operation]);
-  };
+  const handleSetOperationsShifts = useCallback((operation: OperationShift) => {
+    setOperationShifts((operations) => [...operations, operation]);
+  }, []);
 
-  const handleSetUpdateOperation = (shift: NormalizedShift) => {
+  const handleSetUpdateOperation = useCallback((shift: NormalizedShift) => {
     setClipShift({ operation: Operation.Update, shift });
-    setIsFormOpen(true);
-  };
+    setIsModalOpen(true);
+  }, []);
 
-  const handleSetDeleteOperation = ({
-    id,
-    version,
-  }: {
-    id: string;
-    version?: number;
-  }) => {
-    setClipShift({ operation: Operation.Delete, shift: { id, version } });
-    setIsFormOpen(true);
-  };
+  const handleSetDeleteOperation = useCallback(
+    ({ id, version }: { id: string; version?: number }) => {
+      setClipShift({ operation: Operation.Delete, shift: { id, version } });
+      setIsModalOpen(true);
+    },
+    [],
+  );
+
+  const closeModal = useCallback(() => {
+    setClipShift(undefined);
+    setIsModalOpen(false);
+  }, []);
 
   const normalizedShifts = normalizeAndGroupWeekSchedule({
     schedule: mergedShifts,
@@ -106,8 +107,8 @@ export function useScheduleEditor({
     uiShifts: normalizedShifts,
     unassignedUsersByDate,
     clipShift,
-    isFormOpen,
-    setIsFormOpen,
+    isModalOpen,
+    closeModal,
     handleSetOperationsShifts,
     handleSetCreateOperation,
     handleSetUpdateOperation,
