@@ -37,7 +37,11 @@ export interface User {
   email: string;
   role: Role;
   avatarUrl?: string;
-  groupId: string | Group;
+  groupId: string;
+}
+
+export interface PopulatedUser extends Omit<User, "groupId"> {
+  groupId: Group;
 }
 
 export enum ShiftType {

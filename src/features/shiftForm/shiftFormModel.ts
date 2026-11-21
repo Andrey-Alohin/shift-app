@@ -10,8 +10,9 @@ import { FormikHelpers } from "formik";
 
 const buildShiftTimestamps = (date: string) => {
   if (!isNaN(new Date(date).getTime())) {
-    return (time) => new Date(`${date}T${time}:00`);
+    return (time: string) => new Date(`${date}T${time}:00`);
   }
+  throw new Error('Date is not valid try again');
 } 
 
 const initialValues = {
@@ -94,7 +95,7 @@ export default function useShiftFormModel({
       try {
         const userObj = users.find((user) => user._id === values.user);
 
-        if (userObj && typeof userObj.groupId === "string") {
+        if (userObj) {
           const payload: ShiftApiPayload = {
             ...values,
             originGroupId: userObj.groupId,
