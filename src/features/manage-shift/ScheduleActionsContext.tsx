@@ -5,7 +5,7 @@ import { createContext, use } from "react";
 export interface ScheduleActionsType {
   openCreateShift(user: User, date: string): void;
   openEditShift(shift: NormalizedShift): void;
-  openDeleteShift(_id: string, version?: number): void;
+  openDeleteShift({ _id, version }: { _id: string; version?: number }): void;
   closeModal(): void;
 }
 
