@@ -44,7 +44,7 @@ export default function useShiftFormModel({
       startAt: "",
       endAt: "",
     };
-    const fields: FormFieldConfig<typeof fieldValues>[] = [
+    const fields: FormFieldConfig<typeof fieldValues>[] = [ 
       {
         name: "user",
         label: "Вибір працівника",
