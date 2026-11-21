@@ -2,16 +2,17 @@
 
 import { WeekView } from "@/features/Week/types";
 import { useScheduleEditor } from "../model/useScheduleEditor";
-import { Group, Role, Shift, User } from "@/shared/api";
+import { Group, PopulatedUser, Role, Shift, User } from "@/shared/api";
 import Week from "@/features/Week/Week";
 import ShiftCreatePage from "@/features/shiftForm/ui/ShiftForm";
 import UnassignedUsersList from "./UnassignedUsersList";
+import ScheduleActionsProvider from "@/features/manage-shift/ScheduleActionsProvider";
 
 interface ScheduleEditorProps {
   mondayStr: string;
   view: WeekView;
   activeDay: string;
-  currentUser: User;
+  currentUser: PopulatedUser;
   backendData: {
     shifts: Shift[];
     weekBounds: { start: string; end: string };
@@ -59,33 +60,34 @@ export function ScheduleEditor({
     clipShift,
     unassignedUsersByDate,
     handleSetOperationsShifts,
-    isFormOpen,
+    isModalOpen,
+    closeModal,
     handleSetCreateOperation,
     handleSetUpdateOperation,
     handleSetDeleteOperation,
-    operationShifts,
   } = useScheduleEditor({
     rawShifts: backendData.shifts,
     currentUser,
     weekBounds: backendData.weekBounds,
     groupUsers: users,
   });
-  console.log("operations", operationShifts, uiShifts);
   return (
-    <div>
+    <ScheduleActionsProvider
+      actions={{
+        openCreateShift: handleSetCreateOperation,
+        openEditShift: handleSetUpdateOperation,
+        openDeleteShift: handleSetDeleteOperation,
+        closeModal,
+      }}
+    >
       <Week weekSchedule={uiShifts} view={view} day={activeDay} />
-      <UnassignedUsersList
-        unassignedUsers={unassignedUsersByDate}
-        createShiftFunc={handleSetCreateOperation}
-      />
-      {isFormOpen && (
-        <ShiftCreatePage
-          users={users}
-          groups={groups}
-          clipShift={clipShift}
-          onSubmit={handleSetOperationsShifts}
-        />
-      )}
-    </div>
+      <UnassignedUsersList unassignedUsers={unassignedUsersByDate} />
+      {/* <ShiftCreatePage
+        users={users}
+        groups={groups}
+        clipShift={clipShift}
+        onSubmit={handleSetOperationsShifts}
+      /> */}
+    </ScheduleActionsProvider>
   );
 }
