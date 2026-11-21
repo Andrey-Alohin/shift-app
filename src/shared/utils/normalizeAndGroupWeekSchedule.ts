@@ -2,7 +2,7 @@ import {
   MergedShifts,
   Operation,
 } from "@/widgets/schedule-editor/model/schedule-merge";
-import { Group, ShiftType, User } from "../api";
+import { Group, PopulatedUser, ShiftType, User } from "../api";
 import { canManageShift } from "../lib/range/persmissions";
 
 interface NormalizeArguments {
@@ -11,7 +11,7 @@ interface NormalizeArguments {
     start: string;
     end: string;
   };
-  currentUser: User;
+  currentUser: PopulatedUser;
 }
 
 export interface NormalizedShift {
@@ -93,7 +93,7 @@ export default function normalizeAndGroupWeekSchedule({
   weekBounds,
   currentUser,
 }: NormalizeArguments) {
-  const currentGroup = currentUser.groupId as Group;
+  const currentGroup = currentUser.groupId;
   const normalizedWeekSchedule: Record<string, NormalizedDay> =
     generateSkeletonWeekSchedule(weekBounds.start, weekBounds.end);
 
