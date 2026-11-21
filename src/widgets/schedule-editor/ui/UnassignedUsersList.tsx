@@ -1,15 +1,15 @@
 import { Avatar } from "@/entities/user/ui";
+import { useScheduleActions } from "@/features/manage-shift/ScheduleActionsContext";
 import { User } from "@/shared/api";
 
 interface UnassignedUsersListProps {
   unassignedUsers: Record<string, User[]>;
-  createShiftFunc?: (args: unknown) => void;
 }
 
 export default function UnassignedUsersList({
   unassignedUsers,
-  createShiftFunc,
 }: UnassignedUsersListProps) {
+  const { openCreateShift } = useScheduleActions();
   return (
     <div>
       <ul className="flex justify-between">
@@ -26,13 +26,9 @@ export default function UnassignedUsersList({
                       className=""
                     />
                     <p>{user.lastName + " " + user.firstName}</p>
-                    {createShiftFunc && (
-                      <>
-                        <button onClick={() => createShiftFunc(user, date)}>
-                          Призначити зміну
-                        </button>
-                      </>
-                    )}
+                    <button onClick={() => openCreateShift(user, date)}>
+                      Призначити зміну
+                    </button>
                   </li>
                 ))}
               </ul>
