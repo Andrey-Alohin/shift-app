@@ -3,14 +3,14 @@ import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
 import { ShiftStatusBadge } from "./ShiftStatusBadge";
 import { ShiftRangeBar } from "./ShiftRangeBar";
 import Avatar from "@/shared/ui/Avatar";
-import Link from "next/link";
 import { getShiftCardStyles } from "@/shared/lib/styles/shift-styles";
 
 interface ShiftCardProps {
   shift: NormalizedShift;
+  actions?: React.ReactNode;
 }
 
-export default function ShiftCard({ shift }: ShiftCardProps) {
+export default function ShiftCard({ shift, actions }: ShiftCardProps) {
   const {
     startAt,
     endAt,
@@ -21,6 +21,7 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
     isOutstaffOut,
     relatedGroup,
   } = shift;
+
   return (
     <li className={getShiftCardStyles(shift)}>
       <div className="flex flex-wrap relative items-center gap-2 truncate">
@@ -38,11 +39,7 @@ export default function ShiftCard({ shift }: ShiftCardProps) {
           isOutOut={isOutstaffOut}
           groupName={relatedGroup?.name}
         />
-        {shift.canEdit && (
-          <>
-            <Link href={`/schedule?mode=edit`}>Edit</Link>
-          </>
-        )}
+        {shift.canEdit && actions && <>{actions}</>}
       </div>
       {type === ShiftType.Work && (
         <ShiftRangeBar
