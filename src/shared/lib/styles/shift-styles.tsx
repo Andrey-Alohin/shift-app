@@ -1,5 +1,5 @@
 import { cn } from "@/shared/utils";
-import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 import { Operation } from "@/widgets/schedule-editor/model/schedule-merge";
 
 export function getShiftCardStyles(shift: NormalizedShift): string {

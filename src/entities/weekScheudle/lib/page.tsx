@@ -1,4 +1,4 @@
-import normalizeAndGroupWeekScheudle from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import normalizeAndGroupWeekScheudle from "@/shared/utils/normalizeAndGroupWeekSchedule";
 import WeekView from "@/entities/weekScheudle/lib/WeekView";
 import { mockNormalizeArguments } from "@/app/schedule/mockData";
 

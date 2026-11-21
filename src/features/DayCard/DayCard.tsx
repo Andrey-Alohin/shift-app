@@ -1,7 +1,7 @@
 import ShiftCard from "@/entities/shift/ui/ShifCard";
 import { splitShiftByList } from "@/entities/weekScheudle/lib/splitShiftsByList";
 import { cn } from "@/shared/utils";
-import { NormalizedDay } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { NormalizedDay } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 
 interface DayCardProps {
   day: NormalizedDay;

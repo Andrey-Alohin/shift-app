@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Operation, OperationShift, scheduleMerge } from "./schedule-merge";
 import normalizeAndGroupWeekSchedule, {
   NormalizedShift,
-} from "@/shared/utils/normalizeAndGroupWeekScheudle";
+} from "@/shared/utils/normalizeAndGroupWeekSchedule";
 import { Shift, ShiftType, User } from "@/shared/api";
 
 interface UseScheduleEditor {

@@ -1,6 +1,6 @@
 import { ShiftType } from "@/shared/api";
 import { cn } from "@/shared/utils";
-import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 
 interface ShiftPillProps {
   shift: NormalizedShift;

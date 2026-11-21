@@ -1,5 +1,5 @@
 import { ShiftType } from "@/shared/api";
-import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 
 export const splitShiftByList = (
   shifts: NormalizedShift[],

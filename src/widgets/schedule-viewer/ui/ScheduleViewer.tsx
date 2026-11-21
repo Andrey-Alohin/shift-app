@@ -3,7 +3,7 @@ import { getServerSchedule } from "@/entities/shift/api/getServerSchedule";
 import { getServerUser } from "@/entities/user/api/getServerUser";
 import { WeekView } from "@/features/Week/types";
 import Week from "@/features/Week/Week";
-import normalizeAndGroupWeekSchedule from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import normalizeAndGroupWeekSchedule from "@/shared/utils/normalizeAndGroupWeekSchedule";
 
 interface ScheduleViewerProps {
   mondayStr: string;

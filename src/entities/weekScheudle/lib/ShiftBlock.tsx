@@ -1,7 +1,7 @@
 import { ShiftType } from "@/shared/api";
 import { createRangeCalculator } from "@/shared/lib/range";
 import { cn } from "@/shared/utils";
-import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 
 interface ShiftBlockProps {
   shift: NormalizedShift;

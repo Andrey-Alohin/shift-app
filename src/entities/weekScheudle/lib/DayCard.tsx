@@ -1,7 +1,7 @@
 import {
   NormalizedShift,
   NormalizedDay,
-} from "@/shared/utils/normalizeAndGroupWeekScheudle";
+} from "@/shared/utils/normalizeAndGroupWeekSchedule";
 import { splitShiftByList } from "./splitShiftsByList";
 import { User } from "@/shared/api";
 // import { cn } from "@/shared/lib/utils";

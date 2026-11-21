@@ -1,5 +1,5 @@
 import { User } from "@/shared/api";
-import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 import Avatar from "@/shared/ui/Avatar";
 import ShiftPill from "./ShiftPill";
 

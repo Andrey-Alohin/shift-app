@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   ScheduleActionsContext,
   ScheduleActionsType,
@@ -12,7 +13,21 @@ export default function ScheduleActionsProvider({
   actions,
   children,
 }: ScheduleActionsProviderProps) {
+  const { openCreateShift, openEditShift, openDeleteShift, closeModal } =
+    actions;
+
+  const memoizedActions = useMemo<ScheduleActionsType>(
+    () => ({
+      openCreateShift,
+      openEditShift,
+      openDeleteShift,
+      closeModal,
+    }),
+    [openCreateShift, openEditShift, openDeleteShift, closeModal],
+  );
   return (
-    <ScheduleActionsContext value={actions}>{children}</ScheduleActionsContext>
+    <ScheduleActionsContext value={memoizedActions}>
+      {children}
+    </ScheduleActionsContext>
   );
 }

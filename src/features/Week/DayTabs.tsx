@@ -1,5 +1,5 @@
 "use client";
-import { NormalizedWeekSchedule } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { NormalizedWeekSchedule } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 import { useEffect, useRef, useState } from "react";
 import DayCard from "../DayCard/DayCard";
 import { formatToKiyvDateShort } from "@/shared/lib/date";

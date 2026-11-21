@@ -1,5 +1,5 @@
 import { ShiftType } from "@/shared/api";
-import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekScheudle";
+import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 import { ShiftStatusBadge } from "./ShiftStatusBadge";
 import { ShiftRangeBar } from "./ShiftRangeBar";
 import Avatar from "@/shared/ui/Avatar";
