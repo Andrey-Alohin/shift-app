@@ -65,7 +65,12 @@ export interface Shift {
 
 export type ShiftApiPayload = Omit<
   Shift,
-  "user" | "actualGroupId" | "originGroupId" | "originGroupId" | "version"
+  | "user"
+  | "actualGroupId"
+  | "originGroupId"
+  | "originGroupId"
+  | "version"
+  | "createdBy"
 > & {
   user: string;
   actualGroupId: string;

@@ -9,16 +9,18 @@ import { ClipShift } from "@/widgets/schedule-editor/model/useScheduleEditor";
 import { FormikHelpers } from "formik";
 
 const buildShiftTimestamps = (date: string) => {
-  if (!isNaN(new Date(date).getTime())) {
-    return (time: string) => new Date(`${date}T${time}:00`);
+  const datePart = date.slice(0, 10);
+  const baseDate = new Date(datePart);
+  if (!isNaN(baseDate.getTime())) {
+    return (time: string) => new Date(`${datePart}T${time}:00`);
   }
-  throw new Error('Date is not valid try again');
-} 
+  throw new Error("Date is not valid, try again");
+};
 
 const initialValues = {
   user: "",
   actualGroupId: "",
-  type: "",
+  type: ShiftType.Work,
   startAt: "",
   endAt: "",
 };
@@ -36,7 +38,6 @@ export default function useShiftFormModel({
   initValues,
   onSuccess,
 }: UseShiftFormModel) {
-
   if (initValues?.operation === Operation.Create && initValues) {
     const fieldValues = {
       user: "",
@@ -45,7 +46,7 @@ export default function useShiftFormModel({
       startAt: "",
       endAt: "",
     };
-    const fields: FormFieldConfig<typeof fieldValues>[] = [ 
+    const fields: FormFieldConfig<typeof fieldValues>[] = [
       {
         name: "user",
         label: "Вибір працівника",
@@ -60,7 +61,7 @@ export default function useShiftFormModel({
         name: "type",
         label: "Вибір типу зміни",
         type: "select",
-        value: "",
+        value: ShiftType.Work,
         options: SHIFT_TYPE_OPTIONS,
       },
       {
@@ -91,15 +92,17 @@ export default function useShiftFormModel({
       actions: FormikHelpers<typeof fieldValues>,
     ) => {
       const isWork = values.type === ShiftType.Work;
+      const setTimeToDate = buildShiftTimestamps(values.startAt);
 
       try {
         const userObj = users.find((user) => user._id === values.user);
 
-        if (userObj) {
+        if (userObj && isWork) {
           const payload: ShiftApiPayload = {
             ...values,
             originGroupId: userObj.groupId,
-            startAt: 
+            startAt: setTimeToDate(values.startAt).toISOString(),
+            endAt: setTimeToDate(values.endAt).toISOString(),
           };
         }
       } catch {
