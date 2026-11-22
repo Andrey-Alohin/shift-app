@@ -38,76 +38,9 @@ export default function useShiftFormModel({
   initValues,
   onSuccess,
 }: UseShiftFormModel) {
-  if (initValues?.operation === Operation.Create && initValues) {
-    const fieldValues = {
-      user: "",
-      type: "",
-      actualGroupId: "",
-      startAt: "",
-      endAt: "",
-    };
-    const fields: FormFieldConfig<typeof fieldValues>[] = [
-      {
-        name: "user",
-        label: "Вибір працівника",
-        type: "select",
-        value: initValues.shift.user ? initValues.shift.user : fieldValues.user,
-        options: users.map(({ _id, firstName, lastName }) => ({
-          label: `${lastName} ${firstName}`,
-          value: _id,
-        })),
-      },
-      {
-        name: "type",
-        label: "Вибір типу зміни",
-        type: "select",
-        value: ShiftType.Work,
-        options: SHIFT_TYPE_OPTIONS,
-      },
-      {
-        name: "actualGroupId",
-        label: "На яке відділення",
-        type: "select",
-        value: "",
-        options: groups.map((group) => ({
-          label: group.name,
-          value: group._id,
-        })),
-      },
-      {
-        name: "startAt",
-        type: "input",
-        inputType: "time",
-        value: "",
-      },
-      {
-        name: "endAt",
-        type: "input",
-        inputType: "time",
-        value: "",
-      },
-    ];
-    const handleSubmit = async (
-      values: typeof fieldValues,
-      actions: FormikHelpers<typeof fieldValues>,
-    ) => {
-      const isWork = values.type === ShiftType.Work;
-      const setTimeToDate = buildShiftTimestamps(values.startAt);
-
-      try {
-        const userObj = users.find((user) => user._id === values.user);
-
-        if (userObj && isWork) {
-          const payload: ShiftApiPayload = {
-            ...values,
-            originGroupId: userObj.groupId,
-            startAt: setTimeToDate(values.startAt).toISOString(),
-            endAt: setTimeToDate(values.endAt).toISOString(),
-          };
-        }
-      } catch {
-      } finally {
-      }
-    };
-  }
+  const fields: FormFieldConfig<typeof initialValues> = [
+    {
+      name: "user",
+    },
+  ];
 }

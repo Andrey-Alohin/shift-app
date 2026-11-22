@@ -83,13 +83,14 @@ export function ScheduleEditor({
     >
       <Week weekSchedule={uiShifts} view={view} day={activeDay} />
       <UnassignedUsersList unassignedUsers={unassignedUsersByDate} />
-      <Modal isOpen={isModalOpen} closeFunc={closeModal} />
-      {/* <ShiftForm
-        users={users}
-        groups={groups}
-        clipShift={clipShift}
-        onSubmit={handleSetOperationsShifts}
-      /> */}
+      <Modal isOpen={isModalOpen} closeFunc={closeModal}>
+        <ShiftForm
+          users={users}
+          groups={groups}
+          clipShift={clipShift}
+          onSubmit={handleSetOperationsShifts}
+        />
+      </Modal>
     </ScheduleActionsProvider>
   );
 }

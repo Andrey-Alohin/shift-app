@@ -3,7 +3,7 @@ import { Operation, OperationShift, scheduleMerge } from "./schedule-merge";
 import normalizeAndGroupWeekSchedule, {
   NormalizedShift,
 } from "@/shared/utils/normalizeAndGroupWeekSchedule";
-import { PopulatedUser, Shift, ShiftType, User } from "@/shared/api";
+import { Group, PopulatedUser, Shift, ShiftType, User } from "@/shared/api";
 
 interface UseScheduleEditor {
   rawShifts: Shift[];
@@ -24,6 +24,16 @@ interface CreateClipShift {
   endAt: string;
 }
 
+interface UpdateClipShift {
+  _id: string;
+  user: User;
+  type: ShiftType;
+  actualGroupId: string;
+  startAt: string;
+  endAt: string;
+  version: number;
+}
+
 export type ClipShift =
   | {
       operation: Operation.Create;
@@ -31,7 +41,7 @@ export type ClipShift =
     }
   | {
       operation: Operation.Update;
-      shift: NormalizedShift;
+      shift: UpdateClipShift;
     }
   | {
       operation: Operation.Delete;
@@ -71,10 +81,32 @@ export function useScheduleEditor({
     setOperationShifts((operations) => [...operations, operation]);
   }, []);
 
-  const handleSetUpdateOperation = useCallback((shift: NormalizedShift) => {
-    setClipShift({ operation: Operation.Update, shift });
-    setIsModalOpen(true);
-  }, []);
+  const handleSetUpdateOperation = useCallback(
+    ({
+      _id,
+      user,
+      type,
+      relatedGroup,
+      startAt,
+      endAt,
+      version,
+    }: NormalizedShift) => {
+      setClipShift({
+        operation: Operation.Update,
+        shift: {
+          _id,
+          user,
+          type,
+          actualGroupId: relatedGroup ? relatedGroup._id : user.groupId,
+          startAt,
+          endAt,
+          version,
+        },
+      });
+      setIsModalOpen(true);
+    },
+    [],
+  );
 
   const handleSetDeleteOperation = useCallback(
     ({ _id, version }: { _id: string; version?: number }) => {
@@ -92,11 +124,15 @@ export function useScheduleEditor({
     setIsModalOpen(false);
   }, []);
 
-  const normalizedShifts = normalizeAndGroupWeekSchedule({
-    schedule: mergedShifts,
-    weekBounds,
-    currentUser,
-  });
+  const normalizedShifts = useMemo(
+    () =>
+      normalizeAndGroupWeekSchedule({
+        schedule: mergedShifts,
+        weekBounds,
+        currentUser,
+      }),
+    [mergedShifts, weekBounds, currentUser],
+  );
 
   const unassignedUsersByDate = useMemo(() => {
     const res: Record<string, User[]> = {};
