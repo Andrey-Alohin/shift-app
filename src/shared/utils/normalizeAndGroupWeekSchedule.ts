@@ -27,6 +27,7 @@ export interface NormalizedShift {
   };
   originGroup: Group;
   canEdit: boolean;
+  date: string;
   startAt: string;
   endAt: string;
   version: number;
@@ -101,6 +102,7 @@ export default function normalizeAndGroupWeekSchedule({
     const userObj = rawShift.user;
     const originGroup = rawShift.originGroupId;
     const actualGroup = rawShift.actualGroupId;
+    const dateKey = formatToKyivDate(rawShift.startAt);
 
     const isOutstaffIn =
       currentGroup._id === actualGroup._id &&
@@ -128,6 +130,7 @@ export default function normalizeAndGroupWeekSchedule({
       },
       canEdit: false,
       isMe: userObj._id === currentUser._id,
+      date: dateKey,
       startAt: formatToKyivTime(rawShift.startAt),
       endAt: formatToKyivTime(rawShift.endAt),
       version: rawShift.version,
@@ -139,8 +142,6 @@ export default function normalizeAndGroupWeekSchedule({
     };
 
     normalizedShift.canEdit = canManageShift(currentUser, normalizedShift);
-
-    const dateKey = formatToKyivDate(rawShift.startAt);
 
     if (normalizedWeekSchedule[dateKey]) {
       normalizedWeekSchedule[dateKey].shifts.push(normalizedShift);
