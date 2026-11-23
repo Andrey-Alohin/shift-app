@@ -22,7 +22,7 @@ const buildShiftTimestamps = (date: string) => {
   const datePart = date.slice(0, 10);
   const baseDate = new Date(datePart);
   if (!isNaN(baseDate.getTime())) {
-    return (time: string) => new Date(`${datePart}T${time}:00`);
+    return (time: string) => new Date(`${datePart}T${time}:00`).toISOString();
   }
   throw new Error("Date is not valid, try again");
 };
