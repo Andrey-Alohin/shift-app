@@ -2,6 +2,7 @@ import { NormalizedShift } from "@/shared/utils/normalizeAndGroupWeekSchedule";
 import { useScheduleActions } from "../ScheduleActionsContext";
 import { PencilIcon } from "@/shared/ui/icons/PencilIcon";
 import { DeleteIcon } from "@/shared/ui/icons/DeleteIcon";
+import { Operation } from "@/widgets/schedule-editor/model/schedule-merge";
 
 interface ShiftManagerActionsProps {
   shift: NormalizedShift;
@@ -24,7 +25,13 @@ export default function ShiftManagerActions({
       </button>
       <button
         type="button"
-        onClick={() => openDeleteShift(shift._id)}
+        onClick={() =>
+          openDeleteShift({
+            _id: shift._id,
+            version:
+              shift.status !== Operation.Create ? shift.version : undefined,
+          })
+        }
         aria-label="Видалити зміну"
         className="p-1 rounded hover:scale-125 transition-transform cursor-pointer"
       >
