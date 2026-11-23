@@ -20,6 +20,7 @@ interface CreateClipShift {
   user: string;
   actualGroupId: string;
   type: ShiftType;
+  date: string;
   startAt: string;
   endAt: string;
 }
@@ -29,6 +30,7 @@ interface UpdateClipShift {
   user: User;
   type: ShiftType;
   actualGroupId: string;
+  date: string;
   startAt: string;
   endAt: string;
   version: number;
@@ -68,10 +70,11 @@ export function useScheduleEditor({
       shift: {
         _id: Date.now().toString(),
         user: user._id,
-        actualGroupId: "",
+        actualGroupId: user.groupId,
         type: ShiftType.Work,
-        startAt: date,
-        endAt: date,
+        date,
+        startAt: "",
+        endAt: "",
       },
     });
     setIsModalOpen(true);
@@ -87,6 +90,7 @@ export function useScheduleEditor({
       user,
       type,
       relatedGroup,
+      date,
       startAt,
       endAt,
       version,
@@ -98,6 +102,7 @@ export function useScheduleEditor({
           user,
           type,
           actualGroupId: relatedGroup ? relatedGroup._id : user.groupId,
+          date,
           startAt,
           endAt,
           version,
