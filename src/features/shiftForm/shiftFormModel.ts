@@ -1,5 +1,5 @@
 import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
-import { Group, ShiftApiPayload, ShiftType, User } from "@/shared/api";
+import { Group, ShiftType, User } from "@/shared/api";
 import { SHIFT_TYPE_OPTIONS } from "@/shared/config/shiftTypes";
 import { formatToKiyvDate } from "@/shared/lib/date";
 import {
@@ -67,8 +67,8 @@ export default function useShiftFormModel({
   const initValues: ShiftFormValues = useMemo(() => {
     if (isCreate) {
       return {
-        user: initialValues.shift.user._ || "",
-        type: initialValues.shift.type || "",
+        user: initialValues.shift.user || "",
+        type: initialValues.shift.type,
         actualGroupId: initialValues.shift.actualGroupId || "",
         startAt: "",
         endAt: "",
@@ -77,7 +77,7 @@ export default function useShiftFormModel({
 
     if (isUpdate) {
       return {
-        user: initialValues.shift.user,
+        user: initialValues.shift.user._id,
         type: initialValues.shift.type,
         actualGroupId: initialValues.shift.actualGroupId || "",
         startAt: initialValues.shift.startAt,
@@ -156,28 +156,54 @@ export default function useShiftFormModel({
     const buildTime = buildShiftTimestamps(baseDate);
     const { startAt, endAt } = isWork
       ? { startAt: buildTime(values.startAt), endAt: buildTime(values.endAt) }
-      : { startAt: buildTime("09: 00"), endAt: buildTime("18:00") };
+      : { startAt: buildTime("09:00"), endAt: buildTime("18:00") };
 
-      try {
-        if (initialValues.operation === Operation.Create) {
-          const originGroup = groups.find(g => g._id === userObj.groupId)
-          const actualGroup = groups.find(g => g._id === (isWork ? values.actualGroupId : userObj.groupId));
-          if (originGroup &&  actualGroup) {
-
-            onSuccess({
-              operation: Operation.Create,
-              shift: {
-                _id: initialValues.shift._id,
-                user: userObj, 
-                originGroupId: originGroup,
-                actualGroupId: actualGroup,
-                type: values.type,
-                startAt, 
-                endAt,
-              }
-            })
-          }
+    const originGroup = groups.find((g) => g._id === userObj.groupId);
+    const targetGroupId =
+      isWork && values.actualGroupId ? values.actualGroupId : userObj.groupId;
+    const actualGroup = groups.find((g) => g._id === targetGroupId);
+    try {
+      if (initialValues.operation === Operation.Create) {
+        if (originGroup && actualGroup) {
+          onSuccess({
+            operation: Operation.Create,
+            shift: {
+              _id: initialValues.shift._id,
+              user: userObj,
+              originGroupId: originGroup,
+              actualGroupId: actualGroup,
+              type: values.type,
+              startAt,
+              endAt,
+            },
+          });
         }
       }
+      if (initialValues.operation === Operation.Update) {
+        if (originGroup && actualGroup) {
+          onSuccess({
+            operation: Operation.Update,
+            shift: {
+              _id: initialValues.shift._id,
+              user: userObj,
+              originGroupId: originGroup,
+              actualGroupId: isWork ? actualGroup || originGroup : originGroup,
+              type: values.type,
+              startAt,
+              endAt,
+              version: initialValues.shift.version,
+            },
+          });
+        }
+      }
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
+
+  return {
+    fields,
+    initValues,
+    handleSubmit,
   };
 }
