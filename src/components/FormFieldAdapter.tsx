@@ -2,6 +2,8 @@ import { useField, useFormikContext } from "formik";
 import { FormFieldConfig } from "./Form/FormFieldConfig";
 import Input from "@/shared/ui/Input";
 import TimeRangeField from "./TimeRangeField/TimeRangeField";
+import { HTMLAttributes } from "react";
+import { cn } from "@/shared/utils";
 
 interface FormFieldAdapterProps<TValues extends Record<string, unknown>> {
   fieldConfig: FormFieldConfig<TValues>;
@@ -17,12 +19,13 @@ export default function FormFieldAdapter<
     ? fieldConfig.isVisible?.(values)
     : true;
 
-  if (!isVisible) {
-    return null;
-  }
+  const visibleStyle = isVisible
+    ? "grid-template-rows-1"
+    : "grid-template-rows-0";
 
   const isDisabled = isSubmitting || fieldConfig.isDisabled?.(values);
 
+  const DisabledStyle = isDisabled ? "text-muted-foreground" : "";
   const hasError = meta.touched && Boolean(meta.error);
 
   const renderFieldControl = () => {
@@ -33,13 +36,23 @@ export default function FormFieldAdapter<
             id={fieldConfig.name}
             type={fieldConfig.inputType || "text"}
             placeholder={fieldConfig.placeholder}
+            className={DisabledStyle}
+            tabIndex={isVisible ? undefined : -1}
             disabled={isDisabled}
             {...field}
           />
         );
       case "select":
         return (
-          <select id={fieldConfig.name} disabled={isDisabled} {...field}>
+          <select
+            className={cn(
+              "w-full bg-secondary border border-border rounded-xl px-4 py-3 pr-11 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all",
+              DisabledStyle,
+            )}
+            id={fieldConfig.name}
+            disabled={isDisabled}
+            {...field}
+          >
             <option value={""} disabled>
               Оберіть зі списку
             </option>
@@ -63,7 +76,17 @@ export default function FormFieldAdapter<
   };
 
   return (
-    <div className="flex flex-col space-y-1.5">
+    <div
+      className={cn(
+        "grid mt-1 transition-all",
+        isVisible
+          ? "grid-rows-[1fr] opacity-100 mt-1.5"
+          : "grid-rows-[0] opacity-0 mt-0 pointer-events-none",
+      )}
+      style={{
+        gridTemplateRows: isVisible ? "1fr" : "0fr",
+      }}
+    >
       <label
         className="text-xs font-semibold text-muted-foreground tracking-wide uppercase"
         htmlFor={fieldConfig.name}

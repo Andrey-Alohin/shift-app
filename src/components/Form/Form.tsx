@@ -37,7 +37,7 @@ export default function DynamicForm<TValues extends Record<string, unknown>>(
         enableReinitialize
       >
         {() => (
-          <Form className="flex flex-col gap-1.5">
+          <Form className="grid">
             {fields.map((fieldConfig) => (
               <FormFieldAdapter
                 key={fieldConfig.name}

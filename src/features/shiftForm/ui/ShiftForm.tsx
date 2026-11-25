@@ -26,14 +26,15 @@ export default function ShiftForm({
   if (!clipShift) return null;
   console.log(initValues);
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">Створити зміну</h1>
+    <div className="min-w-3xs">
       <DynamicForm
         initialValues={initValues}
         fields={fields}
         onSubmit={handleSubmit}
         submitLabel="Зберегти зміну"
-      />
+      >
+        <h1 className="text-xl font-bold mb-4 text-center">Створити зміну</h1>
+      </DynamicForm>
     </div>
   );
 }
