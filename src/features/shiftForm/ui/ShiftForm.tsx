@@ -11,7 +11,12 @@ interface ShiftFormProps {
   onSubmit: (newOPeration: OperationShift) => void;
 }
 
-export default function ShiftForm({ users, groups, clipShift, onSubmit }) {
+export default function ShiftForm({
+  users,
+  groups,
+  clipShift,
+  onSubmit,
+}: ShiftFormProps) {
   const { fields, initValues, handleSubmit } = useShiftFormModel({
     users,
     groups,
