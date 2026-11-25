@@ -1,4 +1,4 @@
-import { useField } from "formik";
+import { useField, useFormikContext } from "formik";
 import { FormFieldConfig } from "./Form/FormFieldConfig";
 import Input from "@/shared/ui/Input";
 import TimeRangeField from "./TimeRangeField/TimeRangeField";
@@ -8,10 +8,59 @@ interface FormFieldAdapterProps<TValues extends Record<string, unknown>> {
 }
 
 export default function FormFieldAdapter<
-  TAVlues extends Record<string, unknown>,
->({ fieldConfig }: FormFieldAdapterProps<TAVlues>) {
+  TValues extends Record<string, unknown>,
+>({ fieldConfig }: FormFieldAdapterProps<TValues>) {
+  const { values, isSubmitting } = useFormikContext<TValues>();
   const [field, meta] = useField(fieldConfig.name);
+
+  const isVisible = fieldConfig.isVisible
+    ? fieldConfig.isVisible?.(values)
+    : true;
+
+  if (!isVisible) {
+    return null;
+  }
+
+  const isDisabled = isSubmitting || fieldConfig.isDisabled?.(values);
+
   const hasError = meta.touched && Boolean(meta.error);
+
+  const renderFieldControl = () => {
+    switch (fieldConfig.type) {
+      case "input":
+        return (
+          <Input
+            id={fieldConfig.name}
+            type={fieldConfig.inputType || "text"}
+            placeholder={fieldConfig.placeholder}
+            disabled={isDisabled}
+            {...field}
+          />
+        );
+      case "select":
+        return (
+          <select id={fieldConfig.name} disabled={isDisabled} {...field}>
+            <option value={""} disabled>
+              Оберіть зі списку
+            </option>
+            {fieldConfig.options.map(({ label, value }) => (
+              <option key={String(value)} value={String(value)}>
+                {label}
+              </option>
+            ))}
+          </select>
+        );
+      case "time-range":
+        return (
+          <TimeRangeField
+            fields={fieldConfig.fields}
+            config={fieldConfig.config}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="flex flex-col space-y-1.5">
@@ -21,46 +70,7 @@ export default function FormFieldAdapter<
       >
         {fieldConfig.label}
       </label>
-      {(() => {
-        switch (fieldConfig.type) {
-          case "input":
-            return (
-              <Input
-                id={fieldConfig.name}
-                type={fieldConfig.inputType || "text"}
-                placeholder={fieldConfig.placeholder}
-                {...field}
-              />
-            );
-          case "select":
-            return (
-              <select
-                id={fieldConfig.name}
-                disabled={fieldConfig.disabled}
-                value=""
-                {...field}
-              >
-                <option value="" disabled>
-                  Оберіть зі списку
-                </option>
-                {fieldConfig.options.map((opt) => (
-                  <option key={String(opt.value)} value={String(opt.value)}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            );
-          case "time-range":
-            return (
-              <TimeRangeField
-                fields={fieldConfig.fields}
-                config={fieldConfig.config}
-              />
-            );
-          default:
-            return null;
-        }
-      })()}
+      {renderFieldControl()}
       {hasError && (
         <div className="mt-1 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
           {meta.error}

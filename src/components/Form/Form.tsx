@@ -34,6 +34,7 @@ export default function DynamicForm<TValues extends Record<string, unknown>>(
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
+        enableReinitialize
       >
         {() => (
           <Form className="flex flex-col gap-1.5">
