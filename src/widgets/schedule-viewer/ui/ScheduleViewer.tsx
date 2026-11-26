@@ -1,28 +1,31 @@
-import { getServerSchedule } from "@/entities/shift/api/getServerSchedule";
-import { getServerUser } from "@/entities/user/api/getServerUser";
 import { WeekView } from "@/features/Week/types";
 import Week from "@/features/Week/Week";
+import { PopulatedUser, Shift } from "@/shared/api";
 import normalizeAndGroupWeekSchedule from "@/shared/utils/normalizeAndGroupWeekSchedule";
 
 interface ScheduleViewerProps {
-  mondayStr: string;
+  currentUser: PopulatedUser;
+  shifts: Shift[];
+  weekBounds: {
+    start: string;
+    end: string;
+  };
   view: WeekView;
   activeDay: string;
 }
 
-export async function ScheduleViewer({
-  mondayStr,
+export function ScheduleViewer({
+  shifts,
+  weekBounds,
+  currentUser,
   view,
   activeDay,
 }: ScheduleViewerProps) {
-  const currentUser = await getServerUser();
-  const { shifts, weekBounds } = await getServerSchedule(mondayStr);
   const schedule = normalizeAndGroupWeekSchedule({
     schedule: shifts,
     weekBounds,
     currentUser,
   });
-
   return (
     <section>
       <Week weekSchedule={schedule} view={view} day={activeDay} />

@@ -11,6 +11,7 @@ import { getServerUser } from "@/entities/user/api/getServerUser";
 import { getServerSchedule } from "@/entities/shift/api/getServerSchedule";
 import { ScheduleEditor } from "@/widgets/schedule-editor/ui/ScheduleEditor";
 import { Role } from "@/shared/api";
+import ScheduleToolBar from "@/widgets/schedule-toolbar/ui/ScheduleToolBar";
 
 interface PageProps {
   params: Promise<{ currentMonday: string }>;
@@ -41,20 +42,24 @@ export default async function Schedule({ params, searchParams }: PageProps) {
   const isManager = currentUser.role === Role.Manager;
   return (
     <main>
-      {!isManager && (
-        <ScheduleViewer
-          mondayStr={mondayStr}
-          view={view}
-          activeDay={activeDay}
-        />
-      )}
-      {isManager && (
+      <header>
+        <ScheduleToolBar activeMonday={mondayStr} />
+      </header>
+      {isManager ? (
         <ScheduleEditor
           mondayStr={mondayStr}
           view={view}
           activeDay={activeDay}
           currentUser={currentUser}
           backendData={backendData}
+        />
+      ) : (
+        <ScheduleViewer
+          currentUser={currentUser}
+          shifts={backendData.shifts}
+          weekBounds={backendData.weekBounds}
+          view={view}
+          activeDay={activeDay}
         />
       )}
     </main>

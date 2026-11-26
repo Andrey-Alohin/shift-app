@@ -1,75 +1,55 @@
-"use client";
-
-import { WeekView } from "@/features/Week/types";
-import {
-  redirect,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import { useCallback } from "react";
+import { formatToKiyvDate, getMondayFromDay } from "@/shared/lib/date";
+import { cn } from "@/shared/utils";
+import { addDays } from "date-fns";
+import Link from "next/link";
 
 interface ScheduleToolBarProps {
-  currentMonday: string;
-  weekBounds: {
-    start: string;
-    end: string;
-  };
-  view: WeekView;
-  mode: "view" | "edit";
-  activeDay: string;
+  activeMonday: string;
 }
 
 export default function ScheduleToolBar({
-  currentMonday,
-  weekBounds,
-  view,
-  mode = "view",
-  activeDay,
+  activeMonday,
 }: ScheduleToolBarProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const currentMondayDate = getMondayFromDay(new Date());
 
-  const today = new Date();
-
-  const updateURLParams = useCallback(
-    (updates: Record<string, string | null>) => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      Object.entries(updates).forEach(([key, value]) => {
-        if (value === null) {
-          params.delete(key);
-        } else {
-          params.set(key, value);
-        }
-      });
-
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  const items = [
+    {
+      label: "Попередній тиждень",
+      monday: formatToKiyvDate(addDays(currentMondayDate, -7)),
     },
-    [pathname, router, searchParams],
-  );
-
-  const handleCurrentWeek = () => {
-    redirect(`/schedule/${today.toISOString().split("T")[0]}`);
-  };
-
-  const handleNextWeek = () => {
-    const nextWeek = new Date(currentMonday.setDate(today.getDate() + 7));
-    console.log(nextWeek);
-    redirect(`/schedule/${nextWeek.toISOString().split("T")[0]}`);
-  };
-
-  const handlePrevWeek = () => {
-    const prevWeek = currentMonday.setDate(today.getDate() - 7);
-    redirect(`/schedule/${prevWeek}`);
-  };
+    {
+      label: "Поточний тиждень",
+      monday: formatToKiyvDate(currentMondayDate),
+    },
+    {
+      label: "Наступний тиждень",
+      monday: formatToKiyvDate(addDays(currentMondayDate, +7)),
+    },
+  ];
 
   return (
-    <div>
-      <button onClick={() => handlePrevWeek()}>Попередній тиждень</button>
-      <button onClick={() => handleCurrentWeek()}>Поточний тиждень</button>
-      <button onClick={() => handleNextWeek()}>Наступний тиждень</button>
-    </div>
+    <nav
+      aria-label="Навігація по тижнях"
+      className="flex items-center gap-2 p-1 overflow-scroll justify-center"
+    >
+      {items.map(({ label, monday }) => {
+        const isCurrent = activeMonday === monday;
+        return (
+          <Link
+            key={monday}
+            href={`/schedule/${monday}`}
+            aria-current={isCurrent ? "page" : undefined}
+            className={cn(
+              "px-3 py-1.5 rounded-xl border text-sm font-medium transition-all",
+              isCurrent
+                ? "text-primary border-primary hover:translate-y-0.5"
+                : "bg-card text-foreground border-border hover:bg-secondary hover:translate-y-1",
+            )}
+          >
+            {label}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
