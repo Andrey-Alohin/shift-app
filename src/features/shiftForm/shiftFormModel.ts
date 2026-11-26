@@ -1,3 +1,4 @@
+import * as Yup from "yup";
 import { FormFieldConfig } from "@/components/Form/FormFieldConfig";
 import { Group, ShiftType, User } from "@/shared/api";
 import { SHIFT_TYPE_OPTIONS } from "@/shared/config/shiftTypes";
@@ -17,6 +18,38 @@ type ShiftFormValues = {
   startAt: string;
   endAt: string;
 };
+
+const TIME_24H_REGEX = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+export const validationSchema = Yup.object({
+  user: Yup.string().trim().required("Оберіть працівника"),
+  type: Yup.mixed<ShiftType>()
+    .oneOf(Object.values(ShiftType), "Оберіть коректний тип зміни")
+    .required("Оберіть тип зміни"),
+  actualGroupId: Yup.string().when("type", {
+    is: (type: ShiftType) => type === ShiftType.Work,
+    then: (schema) => schema.trim().required("Оберіть відділення"),
+    otherwise: (schema) => schema.optional().default(""),
+  }),
+  startAt: Yup.string().when("type", {
+    is: (type: ShiftType) => type === ShiftType.Work,
+    then: (schema) =>
+      schema
+        .trim()
+        .required("Вкажіть час початку")
+        .matches(TIME_24H_REGEX, "Формат часу має бути ГГ:ХХ"),
+    otherwise: (schema) => schema.optional().default(""),
+  }),
+  endAt: Yup.string().when("type", {
+    is: (type: ShiftType) => type === ShiftType.Work,
+    then: (schema) =>
+      schema
+        .trim()
+        .required("Вкажіть час завершення")
+        .matches(TIME_24H_REGEX, "Формат часу має бути ГГ:ХХ"),
+    otherwise: (schema) => schema.optional().default(""),
+  }),
+});
 
 const buildShiftTimestamps = (date: string) => {
   const datePart = date.slice(0, 10);

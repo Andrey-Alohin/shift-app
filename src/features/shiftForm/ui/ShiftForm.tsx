@@ -3,6 +3,7 @@ import useShiftFormModel from "../shiftFormModel";
 import { Group, User } from "@/shared/api";
 import { ClipShift } from "@/widgets/schedule-editor/model/useScheduleEditor";
 import { OperationShift } from "@/widgets/schedule-editor/model/schedule-merge";
+import { validationSchema } from "../shiftFormModel";
 
 interface ShiftFormProps {
   users: User[];
@@ -29,6 +30,7 @@ export default function ShiftForm({
     <div className="min-w-3xs">
       <DynamicForm
         initialValues={initValues}
+        validationSchema={validationSchema}
         fields={fields}
         onSubmit={handleSubmit}
         submitLabel="Зберегти зміну"

@@ -16,7 +16,7 @@ const fields: FormFieldConfig<typeof initialValues>[] = [
     inputType: "email",
     label: "Email",
     placeholder: "name@company.com",
-    disabled: false,
+    isDisabled: () => false,
   },
   {
     name: "password",
@@ -24,7 +24,7 @@ const fields: FormFieldConfig<typeof initialValues>[] = [
     inputType: "password",
     label: "Password",
     placeholder: "••••••••",
-    disabled: false,
+    isDisabled: () => false,
   },
 ];
 
