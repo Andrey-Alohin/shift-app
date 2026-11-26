@@ -40,7 +40,7 @@ export default function ScheduleToolBar({
             href={`/schedule/${monday}`}
             aria-current={isCurrent ? "page" : undefined}
             className={cn(
-              "px-3 py-1.5 rounded-xl border text-sm font-medium transition-all",
+              "px-3 py-1.5 rounded-xl border text-sm text-center font-medium transition-all",
               isCurrent
                 ? "text-primary border-primary hover:translate-y-0.5"
                 : "bg-card text-foreground border-border hover:bg-secondary hover:translate-y-1",

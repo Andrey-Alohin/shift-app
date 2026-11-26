@@ -12,6 +12,7 @@ import { getServerSchedule } from "@/entities/shift/api/getServerSchedule";
 import { ScheduleEditor } from "@/widgets/schedule-editor/ui/ScheduleEditor";
 import { Role } from "@/shared/api";
 import ScheduleToolBar from "@/widgets/schedule-toolbar/ui/ScheduleToolBar";
+import { ViewModeSwitcher } from "@/features/Week/ViewModeSwitcher";
 
 interface PageProps {
   params: Promise<{ currentMonday: string }>;
@@ -44,6 +45,7 @@ export default async function Schedule({ params, searchParams }: PageProps) {
     <main>
       <header>
         <ScheduleToolBar activeMonday={mondayStr} />
+        <ViewModeSwitcher value={view} />
       </header>
       {isManager ? (
         <ScheduleEditor
