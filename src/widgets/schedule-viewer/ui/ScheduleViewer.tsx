@@ -1,4 +1,3 @@
-import { mockNormalizeArguments } from "@/app/schedule/mockData";
 import { getServerSchedule } from "@/entities/shift/api/getServerSchedule";
 import { getServerUser } from "@/entities/user/api/getServerUser";
 import { WeekView } from "@/features/Week/types";
@@ -16,17 +15,17 @@ export async function ScheduleViewer({
   view,
   activeDay,
 }: ScheduleViewerProps) {
-  // const currentUser = await getServerUser();
-  // const { shifts, weekBounds } = await getServerSchedule(mondayStr);
+  const currentUser = await getServerUser();
+  const { shifts, weekBounds } = await getServerSchedule(mondayStr);
   const schedule = normalizeAndGroupWeekSchedule({
-    schedule: mockNormalizeArguments.schedule,
-    weekBounds: mockNormalizeArguments.weekBounds,
-    currentUser: mockNormalizeArguments.currentUser,
+    schedule: shifts,
+    weekBounds,
+    currentUser,
   });
 
   return (
     <section>
-      <Week weekSchedule={schedule} view={view} day={"2026-07-22"} />
+      <Week weekSchedule={schedule} view={view} day={activeDay} />
     </section>
   );
 }
