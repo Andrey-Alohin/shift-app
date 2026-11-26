@@ -2,7 +2,6 @@ import { useField, useFormikContext } from "formik";
 import { FormFieldConfig } from "./Form/FormFieldConfig";
 import Input from "@/shared/ui/Input";
 import TimeRangeField from "./TimeRangeField/TimeRangeField";
-import { HTMLAttributes } from "react";
 import { cn } from "@/shared/utils";
 
 interface FormFieldAdapterProps<TValues extends Record<string, unknown>> {
@@ -18,10 +17,6 @@ export default function FormFieldAdapter<
   const isVisible = fieldConfig.isVisible
     ? fieldConfig.isVisible?.(values)
     : true;
-
-  const visibleStyle = isVisible
-    ? "grid-template-rows-1"
-    : "grid-template-rows-0";
 
   const isDisabled = isSubmitting || fieldConfig.isDisabled?.(values);
 
@@ -77,28 +72,29 @@ export default function FormFieldAdapter<
 
   return (
     <div
+      aria-hidden={!isVisible}
       className={cn(
-        "grid mt-1 transition-all",
-        isVisible
-          ? "grid-rows-[1fr] opacity-100 mt-1.5"
-          : "grid-rows-[0] opacity-0 mt-0 pointer-events-none",
+        "grid transition-[grid-template-rows,opacity,margin] min-h-0",
+        isVisible ? "opacity-100 mt-1.5" : "opacity-0 mt-0 pointer-events-none",
       )}
       style={{
         gridTemplateRows: isVisible ? "1fr" : "0fr",
       }}
     >
-      <label
-        className="text-xs font-semibold text-muted-foreground tracking-wide uppercase"
-        htmlFor={fieldConfig.name}
-      >
-        {fieldConfig.label}
-      </label>
-      {renderFieldControl()}
-      {hasError && (
-        <div className="mt-1 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
-          {meta.error}
-        </div>
-      )}
+      <div className="overflow-hidden flex flex-col">
+        <label
+          className="text-xs font-semibold text-muted-foreground tracking-wide uppercase"
+          htmlFor={fieldConfig.name}
+        >
+          {fieldConfig.label}
+        </label>
+        {renderFieldControl()}
+        {hasError && (
+          <div className="mt-1 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
+            {meta.error}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
